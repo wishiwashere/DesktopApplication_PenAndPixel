@@ -17,7 +17,7 @@ public class SaveShareScreenB extends Screen {
     // Initialising the TextInput variable, passing in an x, y, width and height. Also passing in the
     // title of this TextInput as well as the text alignment that will be used to display the text
     // within it.
-    messageInput = new TextInput(iconCenterX, iconCenterY * 1.07, appWidth * 0.8, appHeight * 0.3, "messageInput", "LEFT-TOP");
+    messageInput = new TextInput(iconCenterX, iconCenterY * 1.2, appWidth * 0.8, appHeight * 0.3, "messageInput", "LEFT-TOP");
 
     // Setting the maximum amount of characters allowed in this TextInput, so that the user's tweet
     // will not exceed the maximum limit specified by Twitter (as the tweet will also include #WishIWasHere,
@@ -31,8 +31,8 @@ public class SaveShareScreenB extends Screen {
     // Icon class of the app. Passing in a name for the icon, followed by a boolean to choose whether this
     // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
     // screen or function they will later link to.
-    Icon cancelIcon = new Icon(appWidth * 0.3, iconCenterY * 1.45, appWidth * 0.4, appHeight * 0.08, "Cancel", true, "Middle", "SaveShareScreenA");
-    Icon shareIcon = new Icon(appWidth * 0.7, iconCenterY * 1.45, appWidth * 0.4, appHeight * 0.08, "Share", true, "Middle", "_sendTweet");
+    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Back", true, "Middle", "SaveShareScreenA");
+    Icon shareIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Share", true, "Middle", "_sendTweet");
 
     // Creating a temporary allIcons array to store the icon/s we have created above.
     Icon[] allIcons = {cancelIcon, shareIcon};
@@ -57,7 +57,7 @@ public class SaveShareScreenB extends Screen {
     // Adding this screen's private searchingImage, using the addImage() method, as inherited from the
     // Rectangle class, so it will appear as part of this screen. Calculating the x, y, width and height
     // based on the current width and height of the device this app is running on.
-    this.addImage(compiledImage, iconCenterX, iconCenterY * 0.4, appWidth * 0.8, appWidth * 0.6);
+    this.addImage(compiledImage, iconCenterX, iconCenterY * 0.4, appHeight * 0.7, appHeight * 0.45);
 
     // Displaying the text input, along with it's value, on screen by calling the showTextInput() method
     // of the TextInput class.

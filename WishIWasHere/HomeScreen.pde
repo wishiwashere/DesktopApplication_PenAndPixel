@@ -17,11 +17,11 @@ public class HomeScreen extends Screen {
     // Icon class of the app. Passing in a name for the icon, followed by a boolean to choose whether this
     // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
     // screen or function they will later link to.
-    Icon searchTravelIcon = new Icon(appWidth * 0.28, appHeight * 0.2, homeIconSize, homeIconSize, loadImage("searchPageIconImage.png"), "Search", true, "Below", "SearchScreen");
-    Icon randomTravelIcon = new Icon(appWidth * 0.72, appHeight * 0.2, homeIconSize, homeIconSize, loadImage("randomPageIconImage.png"), "Random", true, "Below", "_getRandomLocation");
-    Icon myFavouritesIcon = new Icon(appWidth * 0.28, appHeight * 0.5, homeIconSize, homeIconSize, loadImage("favouritesPageIconImage.png"), "My Favourites", true, "Below", "FavouritesScreen");
-    Icon aboutIcon = new Icon(appWidth * 0.72, appHeight * 0.5, homeIconSize, homeIconSize, loadImage("aboutPageIconImage.png"), "About", true, "Below", "AboutScreen");
-    Icon settingsIcon = new Icon(appWidth * 0.5, appHeight * 0.8, homeIconSize, homeIconSize, loadImage("settingsPageIconImage.png"), "Settings", true, "Below", "SettingsScreen");
+    Icon searchTravelIcon = new Icon(appWidth * 0.2, appHeight * 0.2, homeIconSize, homeIconSize, loadImage("searchPageIconImage.png"), "Search", true, "Below", "SearchScreen");
+    Icon randomTravelIcon = new Icon(appWidth * 0.8, appHeight * 0.2, homeIconSize, homeIconSize, loadImage("randomPageIconImage.png"), "Random", true, "Below", "_getRandomLocation");
+    Icon myFavouritesIcon = new Icon(appWidth * 0.2, appHeight * 0.7, homeIconSize, homeIconSize, loadImage("favouritesPageIconImage.png"), "My Favourites", true, "Below", "FavouritesScreen");
+    Icon aboutIcon = new Icon(appWidth * 0.8, appHeight * 0.7, homeIconSize, homeIconSize, loadImage("aboutPageIconImage.png"), "About", true, "Below", "AboutScreen");
+    Icon settingsIcon = new Icon(appWidth * 0.5, appHeight * 0.5, homeIconSize, homeIconSize, loadImage("settingsPageIconImage.png"), "Settings", true, "Below", "SettingsScreen");
 
     // Creating a temporary allIcons array to store the icon/s we have created above.
     Icon[] allIcons = {randomTravelIcon, searchTravelIcon, myFavouritesIcon, aboutIcon, settingsIcon};

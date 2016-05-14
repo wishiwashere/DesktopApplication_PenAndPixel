@@ -37,10 +37,10 @@ public class SaveShareScreenA extends Screen {
     // a name for the icon, followed by a boolean to choose whether this name should be displayed on
     // the icon or not. Finally, passing in a linkTo value of the name of the screen or function they will
     // later link to.
-    saveIcon = new Icon(iconCenterX * 0.55, iconCenterY * 1.42, largeIconSize, largeIconSize, loadImage(saveIconImage), "Save", true, "Below", "_toggleSavingOfCurrentImage");
-    twitterIcon = new Icon(iconCenterX * 1.45, iconCenterY * 1.42, largeIconSize, largeIconSize, loadImage(twitterIconImage), "Twitter", true, "Below", "_switchSendToTwitter");
-    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.08, "Cancel", true, "Middle", "CameraLiveViewScreen");
-    nextIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.08, "Next", true, "Middle", "_keepImage");
+    saveIcon = new Icon(iconCenterX * 0.55, iconCenterY * 1.22, largeIconSize, largeIconSize, loadImage(saveIconImage), "Save", true, "Below", "_toggleSavingOfCurrentImage");
+    twitterIcon = new Icon(iconCenterX * 1.45, iconCenterY * 1.22, largeIconSize, largeIconSize, loadImage(twitterIconImage), "Twitter", true, "Below", "_switchSendToTwitter");
+    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Cancel", true, "Middle", "CameraLiveViewScreen");
+    nextIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Next", true, "Middle", "_keepImage");
 
     // Creating a temporary allIcons array to store the icon/s we have created above, so that they can
     // be passed to the super class (Screen) to be stored as this screen's icons.
@@ -82,6 +82,6 @@ public class SaveShareScreenA extends Screen {
     // Rectangle class, so it will appear as part of this screen. Calculating the x, y, width and height
     // based on the current width and height of the device this app is running on. This image contains the Google
     // street view background, the keyed image of the user, and the overlay image of the "Wish I Was Here Logo".
-    this.addImage(compiledImage, iconCenterX, iconCenterY * 0.65, googleImageWidth * 0.5, googleImageHeight * 0.5);
+    this.addImage(compiledImage, iconCenterX, iconCenterY * 0.45, googleImageWidth * 0.5, googleImageHeight * 0.5);
   }
 }

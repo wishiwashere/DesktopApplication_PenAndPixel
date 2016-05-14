@@ -171,7 +171,7 @@ public class FavouritesScreen extends Screen {
       // Generating this tab's y position by taking the value of i away from the total number of favourite
       // tabs, and then multiplying it by 25% of the screen height, so that each tab will be spaced evenly
       // one below the other, with some spacing in between
-      float tabYPosition = (float) ((favTabs.size() - i) * appHeight * 0.25);
+      float tabYPosition = appHeight * 0.2 + ((favTabs.size() - i) * appHeight * 0.3);
 
       // Using the setY() method, as inherited from the Rectangle class, through the ClickableElement class,
       // to set the y position of this favourite tab, using the value generated above.

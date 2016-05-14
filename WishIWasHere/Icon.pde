@@ -126,7 +126,7 @@ public class Icon extends ClickableElement {
         // x and y positions of the icon itself, and the font size (which is relative
         // to the icon's current width (using the getWidth() which was also inherited
         // from the Rectangle class)
-        this.addText(this.iconTitle, this.getX(), this.getY(), this.getWidth() * 0.20);
+        this.addText(this.iconTitle, this.getX(), this.getY(), this.getHeight() * 0.6);
       } else if (this.iconTitlePosition.equals("Below")) {
 
         // Calling the super class's (Rectangle) addText method, to add the title to
@@ -135,7 +135,7 @@ public class Icon extends ClickableElement {
         // icon to the y position, so the text will appear below it, as well as the font size
         // (which is relative to the icon's current width (using the getWidth() which was
         // also inherited from the Rectangle class)
-        this.addText(this.iconTitle, this.getX(), this.getY() + (this.getHeight() * 0.6), this.getWidth() * 0.20);
+        this.addText(this.iconTitle, this.getX(), this.getY() + (this.getHeight() * 0.6), this.getWidth() * 0.2);
       }
     }
 

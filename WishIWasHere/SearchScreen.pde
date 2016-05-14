@@ -17,7 +17,7 @@ public class SearchScreen extends Screen {
     // Initialising the TextInput variable, passing in an x, y, width and height. Also passing in the
     // title of this TextInput as well as the text alignment that will be used to display the text
     // within it.
-    this.searchInput = new TextInput(iconCenterX, iconCenterY * 0.7, appWidth * 0.8, appHeight * 0.3, "searchInput", "LEFT-TOP");
+    this.searchInput = new TextInput(iconCenterX, iconCenterY * 1.1, appWidth * 0.8, appHeight * 0.4, "searchInput", "LEFT-TOP");
 
     // Creating the icon/s for this screen, using locally scoped variables, as these icons will be only
     // ever be referred to from the allIcons array. Setting their x, and y, based on percentages of the
@@ -27,8 +27,8 @@ public class SearchScreen extends Screen {
     // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
     // screen or function they will later link to.
     Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
-    Icon cancelIcon = new Icon(appWidth * 0.3, iconCenterY * 1.1, appWidth * 0.4, appHeight * 0.08, "Cancel", true, "Middle", "HomeScreen");
-    Icon searchIcon = new Icon(appWidth * 0.7, iconCenterY * 1.1, appWidth * 0.4, appHeight * 0.08, "Search", true, "Middle", "_searchForLocation");
+    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Cancel", true, "Middle", "HomeScreen");
+    Icon searchIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Search", true, "Middle", "_searchForLocation");
 
     // Creating a temporary allIcons array to store the icon/s we have created above.
     Icon[] allIcons = {homeIcon, searchIcon, cancelIcon};

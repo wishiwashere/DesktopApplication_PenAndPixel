@@ -38,8 +38,8 @@ public class SettingsScreen extends Screen {
     // the icon or not. Finally, passing in a linkTo value of the name of the screen or function they
     // will later link to.
     Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
-    learningModeIcon = new Icon(iconRightX * 0.9, iconCenterY * 0.5, smallIconSize * 1.8, smallIconSize * 0.9, loadImage(learningModeToggleSwitchImage), "Learning mode switch", false, "_switchLearningMode");
-    autoSaveIcon = new Icon(iconRightX * 0.9, iconCenterY * 0.8, smallIconSize * 1.8, smallIconSize * 0.9, loadImage(autoSaveToggleSwitchImage), "Auto-save switch", false, "_switchAutoSaveMode");
+    learningModeIcon = new Icon(iconRightX * 0.9, iconCenterY * 0.9, smallIconSize * 1, smallIconSize * 0.5, loadImage(learningModeToggleSwitchImage), "Learning mode switch", false, "_switchLearningMode");
+    autoSaveIcon = new Icon(iconRightX * 0.9, iconCenterY * 1.2, smallIconSize * 1, smallIconSize * 0.5, loadImage(autoSaveToggleSwitchImage), "Auto-save switch", false, "_switchAutoSaveMode");
 
     // Having to declare the allIcons array locally, as it cannot be initialised in this manner
     // unless it is part of the initial declaration
@@ -70,7 +70,7 @@ public class SettingsScreen extends Screen {
     // lines of text to the screen. Using positioning values which will make this screen responsive
     // to the size of the device it is being displayed on. Using the iconLeftX and iconCenterY variables,
     // as defined in the main Sketch class. Setting the alignment of the text to left aligned.
-    this.addText("Learning Mode", "LEFT", iconLeftX, iconCenterY * 0.5);
-    this.addText("Autosave Image", "LEFT", iconLeftX, iconCenterY * 0.8);
+    this.addText("Learning Mode", "LEFT", iconLeftX, iconCenterY * 0.9);
+    this.addText("Autosave Image", "LEFT", iconLeftX, iconCenterY * 1.2);
   }
 }

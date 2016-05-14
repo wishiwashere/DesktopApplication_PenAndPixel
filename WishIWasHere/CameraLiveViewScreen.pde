@@ -57,13 +57,6 @@ public class CameraLiveViewScreen extends Screen {
       float amountScrolledX = dist(0, pmouseX, 0, mouseX);
       float amountScrolledY = dist(0, pmouseY, 0, mouseY);
 
-      if (amountScrolledX > 0 && amountScrolledY > 0) {
-        // Setting the global mouseClicked variable, as defined in the main Sketch class, to false, so that
-        // while the user is scrolling, the cannot inadvertently click on an icon on the screen if they scroll
-        // over it.
-        mouseClicked = false;
-      }
-
       // GENERAL NOTES ON HOW GOOGLE STREET VIEW IMAGE IS BEING PANNED
       // Heading refers to the left/right view of the image, between 0 and 360 degrees. Decrementing the googleImageHeading
       // by the amount scrolled on the relevant axis. Using a ternary operator to check that this will not

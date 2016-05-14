@@ -14,26 +14,6 @@ public class ShareSaveSuccessfulScreen extends Screen {
     // Initialising this class's private shareSaveSuccessfulScreenImage variable by loading the image
     // in from the assets folder, so that it can be displayed when this screen is called.
     shareSaveSuccessfulScreenImage = loadImage("sharingScreenImage.png");
-
-    // Creating the icon/s for this screen, using locally scoped variables, as these icons will be only
-    // ever be referred to from the allIcons array. Setting their x, and y, based on percentages of the
-    // width and height (where icon positioning variables are used, these were defined in the main 
-    // Not passing in any width or height, so as to allow this icon to be set to the default size in the
-    // Icon class of the app. Passing in a name for the icon, followed by a boolean to choose whether this
-    // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
-    // screen or function they will later link to.
-    Icon returnCameraLiveViewIcon = new Icon(iconCenterX * 0.55, iconCenterY * 1.5, largeIconSize, largeIconSize, loadImage("returnCameraLiveViewIcon.png"), "Return to \r\n camera view", true, "Below", "CameraLiveViewScreen");
-
-    // Creating a temporary allIcons array to store the icon/s we have created above.
-    Icon[] allIcons = {returnCameraLiveViewIcon};
-
-    // Calling the setScreenIcons() method of this screen's super class (Screen). This passes
-    // the temporary allIcons array to the screenIcons array of the Screen class so that they
-    // can be looped through by the showScreen() method, and methods inherited from the Icon
-    // class (such as showIcon and checkMouseOver) can be called on them from within this array.
-    // This reduces the need for each screen to have to loop through it's icons, or call the
-    // same method on multiple icons.
-    this.setScreenIcons(allIcons);
   }
 
   // Creating a public showScreen method, which is called by the draw() function whenever this
@@ -62,14 +42,9 @@ public class ShareSaveSuccessfulScreen extends Screen {
     // Using the addText() method, as inherited from the Rectangle class, to add the following
     // lines of text to the screen. Using positioning values which will make this screen responsive
     // to the size of the device it is being displayed on. Using the iconCenterX variable, as defined
-    // in the main Sketch class
-    this.addText("Your postcard", iconCenterX, appHeight * 0.1);
-    this.addText("has been", iconCenterX, appHeight * 0.18);
-    this.addText("successfully", iconCenterX, appHeight * 0.26);
-
-    // Specifying which method/s have been successful, using the string generated above, based on which
-    // tasks were completed
-    this.addText(methodUsed, iconCenterX, appHeight * 0.34);
+    // in the main Sketch class. Specifying which method/s have been successful, using the string generated 
+    // above, based on which tasks were completed
+    this.addText("Your postcard has been successfully " + methodUsed, iconCenterX, appHeight * 0.1);
 
     // Adding this screen's private shareSaveSuccessfulScreenImage, using the addImage() method, as inherited
     // from the Rectangle class, so it will appear as part of this screen. Calculating the x, y, width and height

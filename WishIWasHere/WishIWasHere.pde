@@ -391,11 +391,11 @@ public void setup() {
   // Initialising the icon positioning X and Y variables, which will be used globally to ensure that
   // the icons on each page all line up with one another. These measurements are all based on percentages
   // of the app's display width and height (as defined above)
-  iconLeftX = appWidth * 0.15;
-  iconRightX = appWidth * 0.85;
+  iconLeftX = appWidth * 0.1;
+  iconRightX = appWidth * 0.9;
   iconCenterX = appWidth * 0.5;
-  iconTopY = appHeight * 0.085;
-  iconBottomY = appHeight * 0.87;
+  iconTopY = appHeight * 0.15;
+  iconBottomY = appHeight * 0.85;
   iconCenterY = appHeight * 0.5;
   largeIconBottomY = iconBottomY - (largeIconSize / 2);
   screenTitleY = iconTopY;
@@ -403,14 +403,14 @@ public void setup() {
   // Declaring the icon sizing variables, which will be used globally to ensure that there will be
   // consistency between the sizes of icons throughout the app. These measurements will all be based on
   // percentages of the app's display, and are initialised in the setup function of this sketch
-  largeIconSize = appWidth * 0.25;
-  smallIconSize = appWidth * 0.15;
-  homeIconSize = largeIconSize * 1.3;
+  largeIconSize = appHeight * 0.25;
+  smallIconSize = appWidth * 0.08;
+  homeIconSize = appHeight * 0.35;
 
   // Declaring the default text size variables, so that there will be consistency with the sizing
   // of all text within the app
-  defaultTextSize = appHeight * 0.032;
-  screenTitleTextSize = appHeight * 0.07;
+  defaultTextSize = appHeight * 0.05;
+  screenTitleTextSize = appHeight * 0.1;
 
   /*---------------------------------- Screens ---------------------------------------------*/
   // Declaring a new instance of each screen in the application, so that they can be accessed by the
@@ -644,6 +644,9 @@ public void switchScreens() {
     mySharingScreen.showScreen();
   } else if (currentScreen.equals("ShareSaveSuccessfulScreen")) {
     myShareSaveSuccessfulScreen.showScreen();
+    // Calling the fadeToScreen method, so that if a click occurs while on this screen, the
+    // user will be taken to the "CameraLiveViewScreen"
+    fadeToScreen("CameraLiveViewScreen");
   } else if (currentScreen.equals("ShareUnsuccessfulScreen")) {
     myShareUnsuccessfulScreen.showScreen();
   } else if (currentScreen.equals("ShareSaveUnsuccessfulScreen")) {
@@ -807,7 +810,7 @@ public void fadeToScreen(String nextScreen) {
   // This method is used by Screen's that do not inherently have any interactions associated with
   // them, so that the next screen can be triggered the next time a mouse click occurs or will
   // otherwise disappear after 50 frames
-  if (frameCount % 50 == 0 || mouseClicked) {
+  if (frameCount % 50 == 0 || mouseClicked || keyPressed) {
 
     // Setting the instance of the LoadingScreen to null, as this screen can only ever be accessed
     // once in any app session

@@ -19,7 +19,7 @@ public class FavouriteTab extends ClickableElement {
     // everytime the FavouriteScreen's resetScreen() method is called, setting a relative
     // width and height, and the title of the location (for printing to the console to let
     // us know which tab was clicked on when a click occurs).
-    super(appWidth/2, 0, appWidth * 0.65, appHeight * 0.17, name);
+    super(appWidth/2, 0, appWidth * 0.78, appHeight * 0.25, name);
 
     // Calling the Rectangle class's setBackgroundColor() method, which is inherited from the
     // Rectangle class, through the ClickableElement class, to set the background color of all

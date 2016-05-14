@@ -6,7 +6,7 @@
 public class AboutScreen extends Screen {
 
   // Creating a private string to contain the text we will display to briefly introduce us and our project
-  private String aboutText = "We are 3rd Year Creative Multimedia students in Limerick Institute of Technology, Clonmel.\r\nWe have decided to design, create and build an application that will allow you to visit different locations around the world.\r\nOur aim is to make the world a little bit smaller, one click at a time. ";
+  private String aboutText = "We are 3rd Year Creative Multimedia students in Limerick Institute of Technology, Clonmel.\r\nThe Wish I Was Here app allows you to take pictures of yourself anywhere in the world.\r\nOur aim is to make the world a little bit smaller, one click at a time. ";
 
   // Creating a private string to contain all of the attribution text we require for this screen. This
   // string will be initialised in the constructor of this screen, using the array declared below, so
@@ -48,9 +48,9 @@ public class AboutScreen extends Screen {
     // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
     // screen or function they will later link to.
     Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
-    Icon facebookIcon = new Icon(appWidth * 0.2, iconBottomY, loadImage("facebookAccountIconImage.png"), "Facebook", false, "https://www.facebook.com/wishiwashereapp");
-    Icon twitterIcon = new Icon(appWidth * 0.5, iconBottomY, loadImage("twitterAccountIconImage.png"), "Twitter", false, "https://twitter.com/wishiwashere");
-    Icon instagramIcon = new Icon(appWidth * 0.8, iconBottomY, loadImage("instagramAccountIconImage.png"), "Instagram", false, "https://www.instagram.com/wishiwashereapp/");
+    Icon facebookIcon = new Icon(appWidth * 0.3, iconBottomY * 1.66, loadImage("facebookAccountIconImage.png"), "Facebook", false, "https://www.facebook.com/wishiwashereapp");
+    Icon twitterIcon = new Icon(appWidth * 0.5, iconBottomY * 1.66, loadImage("twitterAccountIconImage.png"), "Twitter", false, "https://twitter.com/wishiwashere");
+    Icon instagramIcon = new Icon(appWidth * 0.7, iconBottomY * 1.66, loadImage("instagramAccountIconImage.png"), "Instagram", false, "https://www.instagram.com/wishiwashereapp/");
 
     // Creating a temporary allIcons array to store the icon/s we have created above, so that they can
     // be passed to the super class (Screen) to be stored as this screen's icons.
@@ -102,19 +102,19 @@ public class AboutScreen extends Screen {
 
     // Adding the team image, using the addImage() method, as inherited from the Rectangle class through the
     // Screen class. Passing in the image, x, y, width and height
-    this.addImage(loadImage("aboutPageTeamImage.jpg"), appWidth / 2, this.getY() + (appHeight * -0.25), appWidth * 0.7, appHeight * 0.2);
+    this.addImage(loadImage("aboutPageTeamImage.jpg"), appWidth / 2, this.getY() + (appHeight * 0.05), appWidth * 0.7, appHeight * 0.5);
 
     // Adding the about text, using the addTextBox() method, as inherited from the Rectangle class through the
     // Screen class. Passing in the text, x1, y1, x2, y2, horizontal text alignment and vertical text alignment.
     // x1 and y1 will determine where the top left corner of the text box will be positioned, while x2 and y2
     // will determine where the bottom left corner of the text box will be positioned.
-    this.addTextBox(this.aboutText, appWidth * 0.1, this.getY() + (appHeight * -0.1), appWidth * 0.95, appHeight * 0.9, LEFT, TOP);
+    this.addTextBox(this.aboutText, appWidth * 0.15, this.getY() + (appHeight * 0.3), appWidth * 0.85, appHeight * 0.9, LEFT, TOP);
 
     // Adding the about text, using the addTextBox() method, as inherited from the Rectangle class through the
     // Screen class. Passing in the text, x1, y1, x2, y2, horizontal text alignment and vertical text alignment.
     // x1 and y1 will determine where the top left corner of the text box will be positioned, while x2 and y2
     // will determine where the bottom left corner of the text box will be positioned.
-    this.addTextBox(this.attributionText, appWidth * 0.1, this.getY() + (appHeight * 0.48), appWidth * 0.95, appHeight * 1.6, LEFT, TOP);
+    this.addTextBox(this.attributionText, appWidth * 0.15, this.getY() + (appHeight * 1.1), appWidth * 0.85, appHeight * 1.6, LEFT, TOP);
 
     // Checking if the page is being scrolled
     if (mousePressed) {
@@ -143,9 +143,9 @@ public class AboutScreen extends Screen {
     // which this screen initialised in it's super class (Screen) when this screen was created.
     // Using global positioning values defined in the main Sketch class.
     this.getScreenIcons()[0].setY(iconTopY);
-    this.getScreenIcons()[1].setY(iconBottomY);
-    this.getScreenIcons()[2].setY(iconBottomY);
-    this.getScreenIcons()[3].setY(iconBottomY);
+    this.getScreenIcons()[1].setY(iconBottomY * 1.66);
+    this.getScreenIcons()[2].setY(iconBottomY * 1.66);
+    this.getScreenIcons()[3].setY(iconBottomY * 1.66);
 
     // Setting loaded to true. This value will be reset to false in the HomeScreen class, so that the
     // page will always be reset before a user views it again (incase they left the screen partially scrolled)
