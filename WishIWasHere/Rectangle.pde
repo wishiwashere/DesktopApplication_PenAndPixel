@@ -204,7 +204,7 @@ public class Rectangle {
 
     // Adding the text to the screen, setting the x and y positions to 0, as the actual position on the screen will
     // depend on the matrix's translation, as this will control where the text is drawn
-    text(text, 0, 0);
+    text(trim(text), 0, 0);
 
     /// Restoring the matrix to it's previous state (which was stored when we called the .pushMatrix() method at the start
     // of this function)
@@ -245,7 +245,7 @@ public class Rectangle {
     // where the top left corner of the text box will be positioned, while x2 and y2 will determine where the
     // bottom left corner of the text box will be positioned. Any text added to this text box will be
     // displayed within this text box. Any text which exceeds the bounds of this box will not be displayed.
-    text(displayText, (float)(x1), (float)(y1), (float)(x2), (float)(y2));
+    text(trim(displayText), (float)(x1), (float)(y1), (float)(x2), (float)(y2));
 
     // Restoring the matrix to it's previous state (which was stored when we called the .pushMatrix() method at the start
     // of this function)
@@ -282,7 +282,7 @@ public class Rectangle {
     // class in which this image exists. Casting this rotation value to an int, as this is the datatype expected
     // by the addImage() method. Passing these default values, along with the image, x and y to the full addImage()
     // method
-    //this.addImage(img, imgX, imgY, img.width, img.height, 1);
+    this.addImage(img, imgX, imgY, img.width, img.height, 1);
   }
 
   // Partial addImage() method which is used by images that require a specific width and height, but will accept

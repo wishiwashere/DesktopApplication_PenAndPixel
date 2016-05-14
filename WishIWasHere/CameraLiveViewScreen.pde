@@ -57,6 +57,13 @@ public class CameraLiveViewScreen extends Screen {
       float amountScrolledX = dist(0, pmouseX, 0, mouseX);
       float amountScrolledY = dist(0, pmouseY, 0, mouseY);
 
+      if (amountScrolledX > 0 && amountScrolledY > 0) {
+        // Setting the global mouseClicked variable, as defined in the main Sketch class, to false, so that
+        // while the user is scrolling, the cannot inadvertently click on an icon on the screen if they scroll
+        // over it.
+        mouseClicked = false;
+      }
+
       // GENERAL NOTES ON HOW GOOGLE STREET VIEW IMAGE IS BEING PANNED
       // Heading refers to the left/right view of the image, between 0 and 360 degrees. Decrementing the googleImageHeading
       // by the amount scrolled on the relevant axis. Using a ternary operator to check that this will not
@@ -75,7 +82,6 @@ public class CameraLiveViewScreen extends Screen {
       // mouse, in comparison with the current x position of the mouse.
       if (pmouseX > mouseX) {
         // The previous mouse X was further along than the current mouseX
-
 
         // Device is standing upright - so the user wanted to scroll right
         googleImageHeading = (googleImageHeading + amountScrolledX) > 359 ? 0 : googleImageHeading + amountScrolledX;
@@ -125,14 +131,14 @@ public class CameraLiveViewScreen extends Screen {
     // location specified by the user. Setting the rotation of this image to be equal to the orientationRotation of the
     // app, so that the image will be rotated based on which way the user is holding the device, so users can take pictures
     // in both landscape and portrait.
-    this.addImage(currentLocationImage, googleImageWidth, googleImageHeight);
+    this.addImage(currentLocationImage, googleImageWidth/2, googleImageHeight/2);
 
-    // Adding the current keyed image to the CameraLiveViewScreen, so that the user can see themselves in the location added
+    // Adding hent keyed image tothe CameraLiveViewScreen, so that the user can see themselves in the location added
     // above. Setting the scaleX of this image to be equal to the cameraScale, which accounts for and corrects the way in which
     // front facing cameras read in images in reverse (so they no longer appear reversed). Setting the rotation of this image
     // to be equal to the cameraRotation, which accounts for and corrects the way in which ketaiCamera reads in images, so the
     // image appears in the correct orientation.
-    this.addImage(currentImage, appHeight, appWidth, cameraScale, cameraRotation);
+    this.addImage(currentImage, appWidth, appHeight, cameraScale);
 
     // Calling the super class's (Screen) drawScreen() method, to display each of this screen's icons.
     // This method will then in turn call it's super class's (Rectangle) method, to generate the screen. Calling this

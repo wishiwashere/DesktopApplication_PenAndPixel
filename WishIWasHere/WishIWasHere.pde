@@ -155,8 +155,8 @@ public int cameraRotation = -90;
 // Creating variables to store the API keys required for accessing the Twitter API.
 private String twitterOAuthConsumerKey = "huoLN2BllLtOzezay2ei07bzo";
 private String twitterOAuthConsumerSecret = "k2OgK1XmjHLBMBRdM9KKyu86GS8wdIsv9Wbk9QOdzObXzHYsjb";
-private String twitterOAuthAccessToken = "";
-private String twitterOAuthAccessTokenSecret = "";
+private String twitterOAuthAccessToken = "4833019853-PzhGbWL0lulwsER62Ly7VY7P5WQcJT52j0MSIzI";
+private String twitterOAuthAccessTokenSecret = "TazSQHl662mp6GIJkzlWRI5LkjOEnQZ4ifof7V3X3t30C";
 
 // Creating a new instance of the Twitter configuration builder, which will later have the
 // above API keys stored within it, so that it can be passed to the TwitterFactory to generate
@@ -306,7 +306,7 @@ public PImage currentLocationImage = null;
 /*-------------------------------------- Setup() ---------------------------------------------*/
 public void setup() {
   size(640, 360);
-  
+
   // Initialising the appWidth and appHeight variable with the width and height of the device's
   // display, so that these values can be reused throughout all classes (i.e. to calculate
   // more dynamic position/width/height's so that the interface responds to different
@@ -439,7 +439,7 @@ public void setup() {
   // Using the Environment class to determine the path to the external storage directory, as well
   // as the Pictures directory, and then concatenating a name for a new directory ("WishIWasHere")
   // so that images saved from our app will be stored in their own folder.
-  directory = "Pictures";
+  directory = "Pictures/";
 
   // Creating a new File object, using the directory path specified above
   File wishIWasHereDirectory = new File(directory);
@@ -493,20 +493,17 @@ public void keyPressed() {
     // Getting the current input value of this text input (i.e. so that if a user clicks between different
     // text fields, they can resume their input instead of the TextInput becoming empty)
     currentTextInputValue = currentTextInput.getInputValue();
-
     // Checking if the key pressed is a coded value i.e. backspace etc
-    if (key == CODED) {
-      //println(key);
-      // Checking if the key pressed was the backspace key
-      if (keyCode == 67) {
-        // Checking that the length of the current currentTextInputValue string is greater than 0 (i.e.
-        // if the string is empty, don't try to delete anything)
-        if (currentTextInputValue.length() > 0) {
-          //println("BACKSPACE");
-          // Removing the last character from currentTextInputValue string, by creating a substring
-          // of currentTextInputValue, that is one shorter than the current currentTextInputValue string
-          currentTextInputValue = currentTextInputValue.substring(0, currentTextInputValue.length() - 1);
-        }
+
+    // Checking if the key pressed was the backspace key
+    if (keyCode == 8) {
+      // Checking that the length of the current currentTextInputValue string is greater than 0 (i.e.
+      // if the string is empty, don't try to delete anything)
+      if (currentTextInputValue.length() > 0) {
+        //println("BACKSPACE");
+        // Removing the last character from currentTextInputValue string, by creating a substring
+        // of currentTextInputValue, that is one shorter than the current currentTextInputValue string
+        currentTextInputValue = currentTextInputValue.substring(0, currentTextInputValue.length() - 1);
       }
     } else {
       // This is a character key
@@ -697,7 +694,7 @@ public void keepImage() {
     // Saving the image to the photo gallery. This method returns a boolean value, to indicate whether the image was saved
     // successfully or not
     if (saveImageToPhotoGallery()) {
-
+      println("Saved Image!!");
       // Determining which screen to redirect the user to, based on whether they also want
       // to send this image to Twitter or not. If a user is logged in to Twitter, then
       // sendToTwitterOn will be changed to true. If they then decided to disable/enable
@@ -708,6 +705,7 @@ public void keepImage() {
       // booleans will determine which tasks have been successfully completed, in order to
       // display the appropriate confirmation text on screen
       currentScreen = sendToTwitterOn ? "SaveShareScreenB" : "ShareSaveSuccessfulScreen";
+      println(currentScreen);
     } else {
       println("Failed to save image");
 
@@ -780,32 +778,6 @@ public Boolean saveImageToPhotoGallery() {
   // Returning the result of this method i.e. to specify whether the image has been successfully saved to the
   // user's photo gallery
   return successfull;
-}
-
-/*-------------------------------------- SaveImageLocally() ----------------------------------*/
-public Boolean saveImageLocally() {
-
-  // Creating a local boolean, to store the result of whether or not this attempt to save the image
-  // to the locally to the app's internal storage has been successful or not, so that it can be
-  // returned from this method
-  Boolean successful = false;
-
-  // Saving the compiledImage to using the filename "twitterImage", as Twitter will only ever need
-  // to access the most recently saved image (in order to attach it to a Tweet)
-  if (compiledImage.save("twitterImage.jpg")) {
-
-    println("Successfully saved image locally - " + "twitterImage.jpg");
-
-    // Setting the result of this method to be true. The result will then be returned from this method
-    successful = true;
-  } else {
-
-    println("Failed to save image locally - " + "twitterImage.jpg");
-  }
-
-  // Returning the result of this method i.e. to specify whether the image has been successfully saved to the
-  // app's internal storage
-  return successful;
 }
 
 /*-------------------------------------- FadeToScreen() --------------------------------------*/
@@ -1032,16 +1004,12 @@ public void sendTweet() {
       // the hashtag we are concatenating)
       StatusUpdate status = new StatusUpdate(message + " #WishIWasHere");
 
-      // Calling the saveImageLocally() method, to temporarily store the image in the app's internal storage
-      if (saveImageLocally()) {
+      // Loading the image we just saved to the app's internal storage, back in as a File object,
+      // as this is the required method to attach an image to a tweet
+      File twitterImage = new File(sketchPath(saveToPath));
 
-        // Loading the image we just saved to the app's internal storage, back in as a File object,
-        // as this is the required method to attach an image to a tweet
-        File twitterImage = new File("twitterImage.jpg");
-
-        // Setting the media of the Twitter status to be equal to the image we just loaded back in
-        status.setMedia(twitterImage);
-      }
+      // Setting the media of the Twitter status to be equal to the image we just loaded back in
+      status.setMedia(twitterImage);
 
       // Calling the updateStatus() method on the Twitter object, which was generated by the TwitterFactory class
       // when this app was loaded. All of the consumer keys (of our app) and access tokens (of the user's account)
@@ -1099,7 +1067,7 @@ public void removeGreenScreen() {
   PImage keyedImage;
 
   try {
-    println("Starting removing Green Screen at frame " + frameCount);
+    //println("Starting removing Green Screen at frame " + frameCount);
 
     // Changing the colour mode to HSB, so that I can work with the hue, satruation and
     // brightness of the pixels. Setting the maximum hue to 360, and the maximum saturation
@@ -1165,18 +1133,21 @@ public void removeGreenScreen() {
     // Resetting the readingImage variable to false, so that the next frame can be read in from the device camera
     readingImage = false;
 
+    /*
     if ((greenPixels < (appWidth * appHeight * 0.10)) && learningModeOn) {
-      // Triggering the Toast pop up (declared in the main activity) to encourage the user to reframe the
-      // image as it currently has less that 10% green in it
+     // Triggering the Toast pop up (declared in the main activity) to encourage the user to reframe the
+     // image as it currently has less that 10% green in it
+     
+     println("Not enough green in the image");
+     println("Threshold = " + (appWidth * appHeight * 0.10) + "; greenPixels = " + greenPixels);
+     } else {
+     println("Plenty of green in the image");
+     println("Threshold = " + (appWidth * appHeight * 0.10) + "; greenPixels = " + greenPixels);
+     }
+     
+     */
 
-      println("Not enough green in the image");
-      println("Threshold = " + (appWidth * appHeight * 0.10) + "; greenPixels = " + greenPixels);
-    } else {
-      println("Plenty of green in the image");
-      println("Threshold = " + (appWidth * appHeight * 0.10) + "; greenPixels = " + greenPixels);
-    }
-
-    println("Finished removing Green Screen at frame " + frameCount);
+    //println("Finished removing Green Screen at frame " + frameCount);
   } 
   catch (OutOfMemoryError e) {
 
@@ -1232,23 +1203,15 @@ public void mergeImages() {
     // scale() - Scaling the currentImage on the X axis, using the cameraScale, which will contain a value of 1 or -1
     // (based on whether the image should be flipped horizontally i.e. when using the front facing camera, the
     // x scale should always be -1 to avoid things being viewed in reverse)
-    // rotate() - Calculating the appropriate rotation of the currentImage by multiplying the deviceOrientation, which
-    // will contain a value of -90, 0 or 90, and is updated in the onAccelerometerEvent() when the device is rotated,
-    // by the cameraScale (as described above). Taking the result of this, and subtracting it from the cameraRotation,
-    // which will either be set to 90 or -90 degrees (to ensure that the live stream images from the camera area always
-    // oriented in the right direction, as the Ketai Camera reads them in sideways, depending on which device
-    // camera is being used). Then casting the result of this to be a radian value, so that the image will be
-    // rotated in the right direction.
     // image() - adding the currentImage (i.e. the keyed image of the user) to the mergedImage graphic, with an x and
     // y position of 0, as the position of the image within the mergedImage will have been determined by the translate()
-    // method. Setting the width and height of the image to be equal to the device's width and height, as unlike the Google
-    // Street View Image, the currentImage does not change dimensions based on the device's orientation.
+    // method.
     // popMatrix() - Restoring the matrix of the mergedImage to it's previous state (which was stored when we called the
     // .pushMatrix() method at the start of this function)
     mergedImage.pushMatrix();
     mergedImage.translate(googleImageWidth / 2, googleImageHeight / 2);
     mergedImage.scale(cameraScale, 1);
-    mergedImage.image(currentImage, 0, 0, appHeight, appWidth);
+    mergedImage.image(currentImage, 0, 0, appWidth, appHeight);
     mergedImage.popMatrix();
 
     // OVERLAY "WISH I WAS HERE" ICON IMAGE
@@ -1256,7 +1219,7 @@ public void mergeImages() {
     // right hand corner of the final image, in both portrait and landscape mode, so determining it's x and y positions
     // based on the mergedImage width and height, minus a percentage of the device width, to provide a margin around the
     // edge of the icon
-    mergedImage.image(overlayImage, mergedImage.width - (appWidth * 0.3), mergedImage.height - (appWidth * 0.2), appWidth * 0.55, appWidth * 0.3);
+    mergedImage.image(overlayImage, mergedImage.width - (appHeight * 0.3), mergedImage.height - (appHeight * 0.2), appHeight * 0.55, appHeight * 0.3);
     mergedImage.endDraw();
 
     // Setting the compiled image to be equal to the image stored in the PImage graphic created above. This contains
@@ -1407,7 +1370,7 @@ public void loadGoogleImage() {
   // includes the location's latitude, longitude, heading (left to right viewpoint), pitch (up and down viewpoint)
   // our browser API key (so that we have permission to access this API) along with the required width and height
   // for the resulting image (as defined above, based on the device's current orientation)
-  currentLocationImage = loadImage("https://maps.googleapis.com/maps/api/streetview?location=" + googleImageLatLng + "&pitch=" + googleImagePitch + "&heading=" + googleImageHeading + "&key=" + googleBrowserApiKey + "&size=" + googleImageWidth + "x" + googleImageHeight);
+  currentLocationImage = loadImage("https://maps.googleapis.com/maps/api/streetview?location=" + googleImageLatLng + "&pitch=" + googleImagePitch + "&heading=" + googleImageHeading + "&key=" + googleBrowserApiKey + "&size=" + googleImageWidth + "x" + googleImageHeight, "png");
 
   println("Image successfully loaded");
 
@@ -1487,7 +1450,7 @@ public int checkIfFavourite(String currentFavTitle) {
 /*-------------------------------------- CheckTwitterLogin() ---------------------------------*/
 public void checkTwitterLogin() {
   println("Checking if Twitter logged in");
-  
+
   if (twitterLoggedIn) {
     currentScreen = "SocialMediaLogoutScreen";
   }
