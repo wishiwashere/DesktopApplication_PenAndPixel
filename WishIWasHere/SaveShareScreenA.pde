@@ -3,15 +3,8 @@
 // decides to keep and image, and offers them the option to save and/or share this image on Twitter.
 public class SaveShareScreenA extends Screen {
 
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this class.
-    private Sketch sketch;
-
     // Declaring two of this screen's icons as public variables, as they will need to be accessible
-    // from the main Sketch class, so that their images can be updated accordingly if/when their
+    // from the main float class, so that their images can be updated accordingly if/when their
     // status changes. Declaring the "next" icon of this screen privately, as it will need to be accessible from the
     // show screen method of this class so that it's title can be updated when needed. Normally,
     // screen icons are only declared within the constructor of the class, as they will be passed to the
@@ -21,44 +14,33 @@ public class SaveShareScreenA extends Screen {
     public Icon twitterIcon;
     private Icon nextIcon;
 
-    // Creating a public constructor for the class so that an instance of it can be declared in the main sketch
-    public SaveShareScreenA(Sketch _sketch) {
-
-        // Passing the instance of the Sketch class, which was passed to constructor of this class, to the
-        // super class (Screen), which will in turn pass it to it's super class (Rectangle). The purpose
-        // of this variable is so that we can access the Processing library, along with other global methods
-        // and variables of the main sketch class, from all other classes.
-        super(_sketch);
-
-        // Initialising this class's local sketch variable, with the instance which was passed to the
-        // constructor of this class. The purpose of this variable is so that we can access the Processing
-        // library, along with other global methods and variables of the main sketch class, from within
-        // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+    // Creating a public constructor for the class so that an instance of it can be declared in the main float
+    public SaveShareScreenA() {
+      
+        super();
 
         // Creating temporary String variables, to store the relevant path to the icon image which should
-        // be displayed on the saveIcon and twitterIcon icons on this screen, when the sketch first loads.
+        // be displayed on the saveIcon and twitterIcon icons on this screen, when the float first loads.
         // This will depend on the preferences stored by the user (which will have been loaded in in the main
-        // sketch before this screen is created). Using ternary operators to configure the value for these
+        // float before this screen is created). Using ternary operators to configure the value for these
         // variables.
-        String saveIconImage = sketch.autoSaveModeOn ? "saveIconOnImage.png" : "saveIconOffImage.png";
-        String twitterIconImage = TwitterLoginActivity.twitterLoggedIn ? "twitterAccountIconOnImage.png" : "twitterAccountIconOffImage.png";
+        String saveIconImage = autoSaveModeOn ? "saveIconOnImage.png" : "saveIconOffImage.png";
+        String twitterIconImage = twitterLoggedIn ? "twitterAccountIconOnImage.png" : "twitterAccountIconOffImage.png";
 
         // Creating the icon/s for this screen, using a locally scoped variable for the cancel icon, as this
         // icon will be only ever be referred to from the allIcons array. Initialising the one protected, and
         // two public icons which were declare earlier in this class, as they will be accessible from outside of
         // this constructor, so that their background images and/or titles can be updated when needed.
         // Setting their x, and y, based on percentages of the width and height (where icon positioning
-        // variables are used, these were defined in the main sketch. Not passing in any width or height,
+        // variables are used, these were defined in the main  Not passing in any width or height,
         // so as to allow this icon to be set to the default size in the Icon class of the app. Passing in
         // a name for the icon, followed by a boolean to choose whether this name should be displayed on
         // the icon or not. Finally, passing in a linkTo value of the name of the screen or function they will
         // later link to.
-        saveIcon = new Icon(sketch, sketch.iconCenterX * 0.55, sketch.iconCenterY * 1.42, sketch.largeIconSize, sketch.largeIconSize, sketch.loadImage(saveIconImage), "Save", true, "Below", "_toggleSavingOfCurrentImage");
-        twitterIcon = new Icon(sketch, sketch.iconCenterX * 1.45, sketch.iconCenterY * 1.42, sketch.largeIconSize, sketch.largeIconSize, sketch.loadImage(twitterIconImage), "Twitter", true, "Below", "_switchSendToTwitter");
-        Icon cancelIcon = new Icon(sketch, sketch.appWidth * 0.3, sketch.iconBottomY, sketch.appWidth * 0.4, sketch.appHeight * 0.08, "Cancel", true, "Middle", "CameraLiveViewScreen");
-        nextIcon = new Icon(sketch, sketch.appWidth * 0.7, sketch.iconBottomY, sketch.appWidth * 0.4, sketch.appHeight * 0.08, "Next", true, "Middle", "_keepImage");
+        saveIcon = new Icon(iconCenterX * 0.55, iconCenterY * 1.42, largeIconSize, largeIconSize, loadImage(saveIconImage), "Save", true, "Below", "_toggleSavingOfCurrentImage");
+        twitterIcon = new Icon(iconCenterX * 1.45, iconCenterY * 1.42, largeIconSize, largeIconSize, loadImage(twitterIconImage), "Twitter", true, "Below", "_switchSendToTwitter");
+        Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.08, "Cancel", true, "Middle", "CameraLiveViewScreen");
+        nextIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.08, "Next", true, "Middle", "_keepImage");
 
         // Creating a temporary allIcons array to store the icon/s we have created above, so that they can
         // be passed to the super class (Screen) to be stored as this screen's icons.
@@ -82,9 +64,9 @@ public class SaveShareScreenA extends Screen {
         this.drawScreen();
 
         // Checking that at least one of the two option (saving or sharing) is currently turned on or not
-        if(sketch.saveThisImageOn || sketch.sendToTwitterOn){
+        if(saveThisImageOn || sendToTwitterOn){
             // Since the user has chosen to complete at lease one of these tasks, the nextIcon will now
-            // trigger the keepImage() method of the main sketch, and it's title will appear as "Next"
+            // trigger the keepImage() method of the main and it's title will appear as "Next"
             nextIcon.setIconLinkTo("_keepImage");
             nextIcon.setIconTitle("Next");
         } else {
@@ -100,6 +82,6 @@ public class SaveShareScreenA extends Screen {
         // Rectangle class, so it will appear as part of this screen. Calculating the x, y, width and height
         // based on the current width and height of the device this app is running on. This image contains the Google
         // street view background, the keyed image of the user, and the overlay image of the "Wish I Was Here Logo".
-        this.addImage(sketch.compiledImage, sketch.iconCenterX, sketch.iconCenterY * 0.65, sketch.googleImageWidth * 0.5, sketch.googleImageHeight * 0.5);
+        this.addImage(compiledImage, iconCenterX, iconCenterY * 0.65, googleImageWidth * 0.5, googleImageHeight * 0.5);
     }
 }

@@ -2,13 +2,6 @@
 // inherits methods and variables from both of these classes
 public class TextInput extends ClickableElement {
 
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this class.
-    private Sketch sketch;
-
     // Creating private variables to store the TextInput's title, value and text alignment properties, so
     // that they can only be accessed within this class (the input's can be altered using the public get and set
     // methods provided in this class. The inputTitle is used to log out to the console which input was clicked on,
@@ -39,36 +32,36 @@ public class TextInput extends ClickableElement {
     // Partial Constructor
     // This constructor is used by text inputs that require a specific x, y, width, height and title,
     // but will accept left aligned text as default
-    public TextInput(Sketch _sketch, double x, double y, double w, double h, String title) {
+    public TextInput(float x, float y, float w, float h, String title) {
 
         // Since no text align value has been passed in, defaulting this to left aligned. Passing this, along
         // with the specified x, y, width, height and title into the full constructor of this class. Also passing
         // the instance of the Sketch class, which was just passed to this constructor, so that this class
         // can also access the Processing library, as well as the global methods and variables of the Sketch class.
-        this(_sketch, x, y, w, h, title, "LEFT");
+        this(x, y, w, h, title, "LEFT");
     }
 
     // Full Constructor
     // The above constructor passes it's values to this constructor, as well as other TextInput's in the app that
     // want to pass arguments for all of the specified values.
-    public TextInput(Sketch _sketch, double x, double y, double w, double h, String title, String align) {
+    public TextInput(float x, float y, float w, float h, String title, String align) {
 
         // Passing the relevant parameters from the constructor into the constructor of the super class (ClickableElement).
         // Also passing the instance of the Sketch class, which was just passed to this constructor, so that the super
         // class can also access the Processing library, as well as the global methods and variables of the Sketch class.
-        super(_sketch, x, y, w, h, title);
+        super(x, y, w, h, title);
 
         // Initialising this class's local sketch variable, with the instance which was passed to the
         // constructor of this class. The purpose of this variable is so that we can access the Processing
         // library, along with other global methods and variables of the main sketch class, from within
         // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+        // the main must be prefixed with this object while within this class.
+        
 
         // Calling the Rectangle class's setBackgroundColor() method, which this class had inherited through the
         // ClickableElement class, to default all instances of the TextInput class to have an opaque white background.
         // This now means that each TextInput class will have a white rectangle as their background.
-        this.setBackgroundColor(sketch.color(255, 255, 255, 255));
+        this.setBackgroundColor(color(255, 255, 255, 255));
 
         // Initialising the inputTitle to be equal to the requested title. This title will only be used to log out the
         // which TextInput was clicked on, if a click occurs
@@ -99,13 +92,13 @@ public class TextInput extends ClickableElement {
             // If the horizontal alignment specified was just left aligned, then setting the vertical
             // alignment to CENTER (a constant containing the integer value for aligning text - as defined
             // in the Processing libarary)
-            this.textVertAlign = sketch.CENTER;
+            this.textVertAlign = CENTER;
 
         } else if (inputTextAlign.equals("LEFT-TOP")) {
             // If the horizontal alignment specified was left-top aligned, then setting the vertical
             // alignment to TOP (a constant containing the integer value for aligning text - as defined
             // in the Processing library)
-            this.textVertAlign = sketch.TOP;
+            this.textVertAlign = TOP;
         }
     }
 
@@ -127,12 +120,12 @@ public class TextInput extends ClickableElement {
             // this text box. Also passing in a left alignment (for the text on the X axis, as we have no
             // text inputs with horizontal alignments other than left) and the vertical text alignment, as
             // defined in this TextInput's constructor.
-            this.addTextBox(this.inputValue, this.textX1, this.textY1, this.textX2, this.textY2, sketch.LEFT, this.textVertAlign);
+            this.addTextBox(this.inputValue, this.textX1, this.textY1, this.textX2, this.textY2, LEFT, this.textVertAlign);
         }
 
         // Checking if the mouse was clicked, using a custom variable defined in the main Sketch (to
         // differentiate between mouse clicked and mouse pressed (i.e. clicking or scrolling)
-        if (sketch.mouseClicked) {
+        if (mouseClicked) {
 
             // Checking if the mouse was over this TextInput when the click occurred (using the checkMouseOver() method
             // inherited from the ClickableElement class). This method returns a boolean value, to confirm if the
@@ -142,18 +135,18 @@ public class TextInput extends ClickableElement {
                 // Setting the keyboardRequired variable, defined in the main Sketch class, to true, so that the
                 // device's keyboard can be triggered i.e. so that the user can add text to this TextInput using
                 // the default keyboard of their device.
-                sketch.keyboardRequired = true;
+                keyboardRequired = true;
 
-                // Setting the currentTextInput variable in the main Sketch, which stores TextInput objects, to
+                // Setting the currentTextInput variable in the main which stores TextInput objects, to
                 // be equal to this TextInput so that any text which is entered while this input is in focus,
                 // will be added to it.
-                sketch.currentTextInput = this;
+                currentTextInput = this;
 
                 // Clearing the value of currentTextInputValue, which stores the value of the current text input,
                 // so that text from previous TextInput's will not be carried over to this one. If this input already
-                // had a value when the user clicked on it, this will be added again in the main sketch, by accessing
+                // had a value when the user clicked on it, this will be added again in the main by accessing
                 // it's current value using the get method on the currentTextInput variable defined above.
-                sketch.currentTextInputValue = "";
+                currentTextInputValue = "";
 
                 // Logging out that this TextInput was clicked on.
                 println("The " + this.inputTitle + " text input was clicked on");

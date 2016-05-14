@@ -3,14 +3,6 @@
 // methods and variables from this class.
 public class Screen extends Rectangle {
 
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this and all
-    // other classes which extend from it.
-    private Sketch sketch;
-
     // Declaring the screenIcons array, which will be used to store the
     // icons from each screen. This array will be initialised through the
     // setScreenIcons() method, where each screen will pass in an array
@@ -34,20 +26,9 @@ public class Screen extends Rectangle {
     // Full Constructor
     // Creating a protected constructor for the Screen class, so that it can only be accessed by classes
     // which extend from this class
-    protected Screen(Sketch _sketch) {
-
-        // Calling this class's super class (Rectangle) to create a screen using the default settings i.e.
-        // fullscreen, centered in the screen of the device. Also passing the instance of the Sketch class,
-        // which was just passed to this constructor, so that the super class can also access the Processing
-        // library, as well as the global methods and variables of the Sketch class.
-        super(_sketch);
-
-        // Initialising this class's local sketch variable, with the instance which was passed to the
-        // constructor of this class. The purpose of this variable is so that we can access the Processing
-        // library, along with other global methods and variables of the main sketch class, from within
-        // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+    protected Screen() {
+      
+        super();
     }
 
     /*-------------------------------------- drawScreen() ------------------------------------------------*/
@@ -60,12 +41,12 @@ public class Screen extends Rectangle {
         // Checking if this screen has been given a title (i.e. if the contents of the screenTitle has been set
         if (this.screenTitle.length() > 0) {
             // Setting the fill to black, so that the text will be black
-            sketch.fill(0);
+            fill(0);
 
             // Using the addText() method (as inherited from the Rectangle class) to add this title to the screen.
             // Calculating the positioning and text size of this title based on the size of the device on which
             // it is being displayed, as well as through global variables declared in the main Sketch class.
-            this.addText(this.screenTitle, sketch.appWidth / 2, sketch.screenTitleY, sketch.screenTitleTextSize);
+            this.addText(this.screenTitle, appWidth / 2, screenTitleY, screenTitleTextSize);
         }
 
         // Checking if this screen has any icons to be displayed
@@ -74,24 +55,11 @@ public class Screen extends Rectangle {
             // Looping through each of the screen's icons
             for (int i = 0; i < this.screenIcons.length; i++) {
 
-                // Checking if the user is currently on the CameraLiveViewScreen, or the CameraPreviewScreen as icons on this screen
-                // will be rotated based on the device's orientation
-                if(sketch.currentScreen.equals("CameraLiveViewScreen") || sketch.currentScreen.equals("ImagePreviewScreen")){
-
-                    // Setting the rotation of this icon to be equal to the global deviceOrientation variable,
-                    // which is updated within the onAccelerometerEvent() method of the main Sketch class
-                    this.screenIcons[i].setRotation(sketch.deviceOrientation);
-                } else {
-
-                    // If the user is not on the CameraLiveViewScreen or the CameraPreviewScreen, resetting all icons rotations to 0
-                    this.screenIcons[i].setRotation(0);
-                }
-
                 // Calling the showIcon() method (as inherited from the Icon class) to display the icon on screen
                 this.screenIcons[i].showIcon();
 
                 // Checking if the mouse is currently clicked i.e. if a click has been detected
-                if (sketch.mouseClicked) {
+                if (mouseClicked) {
                     // Calling the checkMouseOver() method (as inherited from the Icon class, to see if the mouse
                     // was over this icon when it was clicked
                     this.screenIcons[i].checkMouseOver();
@@ -108,19 +76,19 @@ public class Screen extends Rectangle {
         // Setting the global mouseClicked variable, as defined in the main Sketch class, to false, so that
         // while the user is scrolling, the cannot inadvertently click on an icon on the screen if they scroll
         // over it.
-        sketch.mouseClicked = false;
+        mouseClicked = false;
 
         // Calculating the amount scrolled, based on the distance between the previous y position,
         // and the current y position. Not accounting for the x position (which is being defaulted
         // to 0) as this is irrelevant when scrolling up/down the screen)
-        float amountScrolled = dist(0, sketch.pmouseY, 0, sketch.mouseY);
+        float amountScrolled = dist(0, pmouseY, 0, mouseY);
 
         // Looping through each of the screen's icons, which the screen would have passed to this class
         // when the screen was first created
         for (int i = 0; i < this.screenIcons.length; i++) {
 
             // Checking which direction the user scrolled, based on the previous and current Y positions
-            if (sketch.pmouseY > sketch.mouseY) {
+            if (pmouseY > mouseY) {
                 // The user has scrolled UP
 
                 // Setting the y position of the icon to it's current position, minus the amount scrolled i.e.
@@ -131,7 +99,7 @@ public class Screen extends Rectangle {
 
                 // Checking if the screen's y position is less than or equal to half of the height, minus the amount
                 // scrolled i.e. so that the screen cannot be scrolled down any further once you reach the top
-                if (this.getY() <= (sketch.appHeight / 2) - amountScrolled) {
+                if (this.getY() <= (appHeight / 2) - amountScrolled) {
 
                     // Setting the y position of the icon to it's current position, plus the amount scrolled i.e.
                     // moving the icon down the screen
@@ -143,7 +111,7 @@ public class Screen extends Rectangle {
         // Checking which direction the user scrolled (the reason we have to do this separately from above is
         // that including these lines within the icons loop above makes these elements move faster than the
         // page icons
-        if (sketch.pmouseY > sketch.mouseY) {
+        if (pmouseY > mouseY) {
             // The user has scrolled UP
 
             // Setting the screen's y position to it's current y position, minus the amount scrolled i.e. moving
@@ -152,13 +120,13 @@ public class Screen extends Rectangle {
 
             // Setting the global positioning variable screenTitleY to be decremented by the amount scrolled. Note:
             // this variable gets reset everytime the page is changed (in the HomeScreen class)
-            sketch.screenTitleY -= amountScrolled;
+            screenTitleY -= amountScrolled;
         } else {
             // The user has scrolled DOWN
 
             // Checking if the screen's y position is less than or equal to half of the height minus the amount
             // scrolled i.e. so that the screen cannot be scrolled down any further once you reach the top
-            if (this.getY() <= (sketch.appHeight / 2) - amountScrolled) {
+            if (this.getY() <= (appHeight / 2) - amountScrolled) {
 
                 // Setting the screen's y position to it's current y position, plus the amount scrolled i.e. moving
                 // the screen down
@@ -167,7 +135,7 @@ public class Screen extends Rectangle {
                 // Setting the global positioning variable screenTitleY to be incremented by the amount scrolled. Note:
                 // this variable gets reset everytime the page is changed (in the Icon class's checkMouseOver function, when
                 // an icon's link is passed in to change a page)
-                sketch.screenTitleY += amountScrolled;
+                screenTitleY += amountScrolled;
             }
         }
 

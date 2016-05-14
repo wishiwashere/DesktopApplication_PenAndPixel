@@ -7,13 +7,6 @@ import java.util.ArrayList;
 // want to view or access their favourite locations, so they can quickly return to them.
 public class FavouritesScreen extends Screen {
 
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this class.
-    private Sketch sketch;
-
     // Creating a private boolean, which will be used to check if this page has be reloaded yet i.e.
     // so that when the user leaves this screen, it will be reset (using this class's resetScreen() method)
     // so that if the page was partially scrolled when they left it, it will reset when they come back to
@@ -27,27 +20,16 @@ public class FavouritesScreen extends Screen {
 
     /*-------------------------------------- Constructor() ------------------------------------------------*/
     // Creating a public constructor for the class so that an instance of it can be declared in the main sketch
-    public FavouritesScreen(Sketch _sketch) {
+    public FavouritesScreen() {
 
-        // Passing the instance of the Sketch class, which was passed to constructor of this class, to the
-        // super class (Screen), which will in turn pass it to it's super class (Rectangle). The purpose
-        // of this variable is so that we can access the Processing library, along with other global methods
-        // and variables of the main sketch class, from all other classes.
-        super(_sketch);
-
-        // Initialising this class's local sketch variable, with the instance which was passed to the
-        // constructor of this class. The purpose of this variable is so that we can access the Processing
-        // library, along with other global methods and variables of the main sketch class, from within
-        // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+        super();
 
         // Creating the favTabs array to store each of the favourite tabs that will be created below
         this.favTabs = new ArrayList<FavouriteTab>();
 
         // Looping through the favourites array, to create a new tab for each favourite location in the
         // user_preferences.xml file, so they can be displayed as a list of tabs on this screen
-        for (int f = 0; f < sketch.favouriteLocationsData.length; f++) {
+        for (int f = 0; f < favouriteLocationsData.length; f++) {
 
             // Creating temporary variables to store the data relating to this location from
             // the favourite locations xml file, so that they can be passed in to this favourite
@@ -55,14 +37,14 @@ public class FavouritesScreen extends Screen {
             // been stored as strings in the XML file. The purpose of casting them back to floats is
             // that we want the user to be able to scroll around the location and therefore be able
             // to increment/decrement these values.
-            String name = sketch.favouriteLocationsData[f].getString("name");
-            String latLng = sketch.favouriteLocationsData[f].getString("latLng");
-            float heading = Float.parseFloat(sketch.favouriteLocationsData[f].getString("heading"));
-            float pitch = Float.parseFloat(sketch.favouriteLocationsData[f].getString("pitch"));
+            String name = favouriteLocationsData[f].getString("name");
+            String latLng = favouriteLocationsData[f].getString("latLng");
+            float heading = Float.parseFloat(favouriteLocationsData[f].getString("heading"));
+            float pitch = Float.parseFloat(favouriteLocationsData[f].getString("pitch"));
 
             // Creating a temporary variable to hold the new Favourite Tab, passing in the title
             // and location data for the current favourite.
-            FavouriteTab newFavTab = new FavouriteTab(sketch, name, latLng, heading, pitch);
+            FavouriteTab newFavTab = new FavouriteTab(name, latLng, heading, pitch);
 
             // Adding the new FavTab to this class's favTabs array, so that we can loop through them
             // in the showScreen() method, to display them, as well as checking if they are being
@@ -72,12 +54,12 @@ public class FavouritesScreen extends Screen {
 
         // Creating the icon/s for this screen, using locally scoped variables, as these icons will be only
         // ever be referred to from the allIcons array. Setting their x, and y, based on percentages of the
-        // width and height (where icon positioning variables are used, these were defined in the main sketch.
+        // width and height (where icon positioning variables are used, these were defined in the main 
         // Not passing in any width or height, so as to allow this icon to be set to the default size in the
         // Icon class of the app. Passing in a name for the icon, followed by a boolean to choose whether this
         // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
         // screen or function they will later link to.
-        Icon homeIcon = new Icon(sketch, sketch.iconRightX, sketch.iconTopY, sketch.loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
+        Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
 
         // Creating a temporary allIcons array to store the icon/s we have created above.
         Icon[] allIcons = {homeIcon};
@@ -122,11 +104,11 @@ public class FavouritesScreen extends Screen {
         }
 
         // Checking if the page is being scrolled
-        if (sketch.mousePressed) {
+        if (mousePressed) {
 
-            if(sketch.mouseClicked && sketch.mouseY < sketch.iconTopY){
+            if(mouseClicked && mouseY < iconTopY){
                 resetScreen();
-                sketch.mouseClicked = false;
+                mouseClicked = false;
             } else {
 
                 // Calling the Screen class's scrollScreen() method, to scroll the icons, screen and screen
@@ -139,7 +121,7 @@ public class FavouritesScreen extends Screen {
                 for (int i = 0; i < favTabs.size(); i++) {
 
                     // Checking which direction the user scrolled, based on the previous and current mouse Y positions
-                    if (sketch.pmouseY > sketch.mouseY) {
+                    if (pmouseY > mouseY) {
                         // The user has scrolled UP
 
                         // Setting the y position of the icon to it's current position, minus the amount scrolled i.e.
@@ -150,7 +132,7 @@ public class FavouritesScreen extends Screen {
 
                         // Checking if the screen's y position is less than or equal to half of the height i.e. is
                         // so that the screen cannot be down any further once you reach the top
-                        if (this.getY() <= (sketch.appHeight / 2) - amountScrolled) {
+                        if (this.getY() <= (appHeight / 2) - amountScrolled) {
 
                             // Setting the y position of the icon to it's current position, plus the amount scrolled i.e.
                             // moving the icon down the screen
@@ -173,15 +155,15 @@ public class FavouritesScreen extends Screen {
 
         // Resetting the screenTitleY position to it's original value (as it may have been
         // incremented if the about screen was scrolled
-        sketch.screenTitleY = sketch.iconTopY;
+        screenTitleY = iconTopY;
 
         // Resetting the screen's y value to be centered on the device's screen
-        this.setY(sketch.appHeight / 2);
+        this.setY(appHeight / 2);
 
         // Since there is only one icon on this screen (the home icon) just accessing the first icon
         // in this screen's allScreenIcons array, to be equal to the gloabl iconTopY position, as declared
         // in the main Sketch class
-        this.getScreenIcons()[0].setY(sketch.iconTopY);
+        this.getScreenIcons()[0].setY(iconTopY);
 
         // Looping through each of the favourite tabs, in reverse so the newest always appear at the top,
         // to reset their positions on screen
@@ -189,7 +171,7 @@ public class FavouritesScreen extends Screen {
             // Generating this tab's y position by taking the value of i away from the total number of favourite
             // tabs, and then multiplying it by 25% of the screen height, so that each tab will be spaced evenly
             // one below the other, with some spacing in between
-            float tabYPosition = (float) ((favTabs.size() - i) * sketch.appHeight * 0.25);
+            float tabYPosition = (float) ((favTabs.size() - i) * appHeight * 0.25);
 
             // Using the setY() method, as inherited from the Rectangle class, through the ClickableElement class,
             // to set the y position of this favourite tab, using the value generated above.

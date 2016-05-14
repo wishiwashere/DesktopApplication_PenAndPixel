@@ -2,13 +2,6 @@
 // inherits methods and variables from both of these classes.
 public class Icon extends ClickableElement {
 
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this class.
-    private Sketch sketch;
-
     // Creating private variables to store the icon's link, title, show title and title position properties,
     // so that they can only be accessed within this class (the icon's link and title can be altered using
     // the public get and set methods provided in this class. The iconLinkTo variable specifies which funciton,
@@ -27,75 +20,75 @@ public class Icon extends ClickableElement {
     // This constructor is used by icons that want to accept the default width and height of a small icon,
     // but do not need to specify their title's alignment values as they will not be displaying it
     // (i.e. icons on the CameraLiveView Screen)
-    public Icon(Sketch _sketch, double x, double y, PImage img, String title, Boolean showTitle, String linkTo) {
+    public Icon(float x, float y, PImage img, String title, Boolean showTitle, String linkTo) {
 
         // If no width or height specified, defaulting these to the smallIconSize (as defined in the main Sketch class)
         // If no title position specified, then defaulting this to "Middle" i.e. centered on the icon. Then passing these
         // default values, along with the specified parameters, into the full constructor of this class. Also passing
         // the instance of the Sketch class, which was just passed to this constructor, so that this class can also
         // access the Processing library, as well as the global methods and variables of the Sketch class
-        this(_sketch, x, y, _sketch.smallIconSize, _sketch.smallIconSize, img, title, showTitle, "Middle", linkTo);
+        this(x, y, smallIconSize, smallIconSize, img, title, showTitle, "Middle", linkTo);
     }
 
     // Partial Constructor
     // This constructor is used by icons that want to specify all of their properties, but do not need to specify their
     // title's alignment value as they will not be displaying it
     // (i.e. the toggle switches on the Settings screen)
-    public Icon(Sketch _sketch, double x, double y, double w, double h, PImage img, String title, Boolean showTitle, String linkTo){
+    public Icon(float x, float y, float w, float h, PImage img, String title, Boolean showTitle, String linkTo){
 
         // If no title position specified, then defaulting this to "Middle" i.e. centered on the icon. Then passing this
         // default value, along with the specified parameters, into the full constructor of this class. Also passing
         // the instance of the Sketch class, which was just passed to this constructor, so that this class can also
         // access the Processing library, as well as the global methods and variables of the Sketch class
-        this(_sketch, x, y, w, h, img, title, showTitle, "Middle", linkTo);
+        this(x, y, w, h, img, title, showTitle, "Middle", linkTo);
     }
 
     // Partial Constructor
     // This constructor is used by icons that want to specify all of their properties, except for the background image parameter
     // (i.e. buttons that only have text on them).
-    public Icon(Sketch _sketch, double x, double y, double w, double h, String title, Boolean showTitle, String titlePosition, String linkTo){
+    public Icon(float x, float y, float w, float h, String title, Boolean showTitle, String titlePosition, String linkTo){
 
         // If no image specified, then defaulting this to null. Then passing this default value, along with the specified parameters,
         // into the full constructor of this class. Also passing the instance of the Sketch class, which was just passed to this
         // constructor, so that this class can also access the Processing library, as well as the global methods and variables
         // of the Sketch class
-        this(_sketch, x, y, w, h, null, title, showTitle, titlePosition, linkTo);
+        this(x, y, w, h, null, title, showTitle, titlePosition, linkTo);
 
         // Calling the Rectangle class's setBackgroundColor() method, which this class has inherited through the ClickableElement
         // class, to default all instances of the Icon class, which do not specify a background image, i.e. buttons, to have an
         // opaque white background. This now means that each button, which does not have a background image, will have a white
         // rectangle as their background.
-        this.setBackgroundColor(sketch.color(255, 255, 255, 255));
+        this.setBackgroundColor(color(255, 255, 255, 255));
     }
 
     // Full Constructor
     // All of the above constructors both pass their values to this constructor, as well as other icon's in the app that
     // want to pass arguments for all of the specified values
     // (i.e. the icons on the home screen)
-    public Icon(Sketch _sketch, double x, double y, double w, double h, PImage img, String title, Boolean showTitle, String titlePosition, String linkTo) {
+    public Icon(float x, float y, float w, float h, PImage img, String title, Boolean showTitle, String titlePosition, String linkTo) {
 
         // Passing the relevant parameters from the constructor into the constructor of the super class (Rectangle).
         // Also passing the instance of the Sketch class, which was just passed to this constructor, so that the super
         // class can also access the Processing library, as well as the global methods and variables of the Sketch class.
-        super(_sketch, x, y, w, h, img, title);
+        super(x, y, w, h, img, title);
 
         // Initialising this class's local sketch variable, with the instance which was passed to the
         // constructor of this class. The purpose of this variable is so that we can access the Processing
         // library, along with other global methods and variables of the main sketch class, from within
         // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+        // the main must be prefixed with this object while within this class.
+        
 
         // Initialising the iconLinkTo to be equal to the requested link specified in the object's constructor.
         // If this link begins with a letter i.e. "CameraLiveViewScreen" then this will be passed to the global
         // currentScreen variable when the icon is clicked on, so that in the main Sketch we can determine which
         // screen to display. If this link begins with an underscore i.e. "_keepImage" then this will be passed
-        // into the global callFunction variable when the icon is clicked on, so that in the main Sketch, we
+        // into the global callFunction variable when the icon is clicked on, so that in the main we
         // can determine which function to call. If this link begins with a hyphen i.e. "-returnTo" then setting
         // the currentScreen to be equal to the screen to which this icon should return users to (using the main Sketch's
         // "returnTo" variable" i.e. if the user has arrived at this screen from A, then clicking cancel on this screen
         // should return them to that screen. They may also have come to this screen from the screen B, in which case the
-        // cancel button should return them there. The returnTo variable is defined and initialised in the main Sketch.
+        // cancel button should return them there. The returnTo variable is defined and initialised in the main 
         this.iconLinkTo = linkTo;
 
         // Initialising the iconTitle to be equal to the requested title. If no title was provided, then an empty string
@@ -149,7 +142,7 @@ public class Icon extends ClickableElement {
 
         // Checking if the mouse was clicked, using a custom variable defined in the main Sketch (to
         // differentiate between mouse clicked and mouse pressed (i.e. clicking or scrolling)
-        if (sketch.mouseClicked) {
+        if (mouseClicked) {
 
             // Checking if the mouse was over this icon when the click occurred (using the checkMouseOver() method
             // inherited from the ClickableElement class). This method returns a boolean value, to confirm if the
@@ -159,7 +152,7 @@ public class Icon extends ClickableElement {
                 // Since this icon has been detected as having been clicked on, resetting the mouseClicked variable
                 // from the main Sketch to be equal to false (so that no further clicks will be detected on this
                 // one click event)
-                sketch.mouseClicked = false;
+                mouseClicked = false;
 
                 // Checking if this icon has a link associated with it
                 if (this.iconLinkTo.length() > 0)
@@ -169,7 +162,7 @@ public class Icon extends ClickableElement {
                         // This is an EXTERNAL link
                         // Passing the icon's link into the link() method, so that it can be treated as
                         // an external link i.e. to a website
-                        sketch.link(this.iconLinkTo);
+                        link(this.iconLinkTo);
 
                         // Logging out what site the user will now be taken to
                         println("Going to " + this.iconLinkTo);
@@ -178,8 +171,8 @@ public class Icon extends ClickableElement {
 
                         // This is a call to a function within the app. Setting the callFunction variable,
                         // from the main Sketch class, to equal to this link. The function will then be
-                        // called from within the draw() method of the main Sketch.
-                        sketch.callFunction = this.iconLinkTo;
+                        // called from within the draw() method of the main 
+                        callFunction = this.iconLinkTo;
 
                         // Logging out what function will now be called
                         println("Calling the " + this.iconLinkTo + "() function");
@@ -191,8 +184,8 @@ public class Icon extends ClickableElement {
                         // cancel on this screen should return them to that screen. They may also have come
                         // to this screen from the Settings screen, in which case the cancel button should
                         // return them there. The returnTo variable is defined and initialised in the main
-                        // Sketch.
-                        sketch.currentScreen = sketch.returnTo;
+                        // 
+                        currentScreen = returnTo;
 
                         // Logging out what screen the user will now be taken back to
                         println("Returning to the " + this.iconLinkTo + "screen");
@@ -202,7 +195,7 @@ public class Icon extends ClickableElement {
                         // Setting the global currentScreen variable to be equal to the link contained within
                         // the icon that was clicked on (so it can be used in the main Sketch to determine
                         // which screen to display)
-                        sketch.currentScreen = this.iconLinkTo;
+                        currentScreen = this.iconLinkTo;
 
                         // Logging out what screen the user will now be taken to
                         println("Going to the " + this.iconLinkTo);

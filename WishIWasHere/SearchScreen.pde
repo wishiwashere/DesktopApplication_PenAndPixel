@@ -1,20 +1,7 @@
-package processing.test.wish_i_was_here;
-
-// Importing the Processing library, so this class can declare variables using Processing specific
-// datatypes i.e. PImage objects.
-import processing.core.*;
-
 // This class extends from the Screen class, which in turn extends from the Rectangle class, and so
 // inherits methods and variables from both of these classes. This screen is displayed when a user wants
 // to search for a specific location.
 public class SearchScreen extends Screen {
-
-    // Creating a private variable to store the instance of the main sketch which will be passed into
-    // the constructors of this class when they are initialised. The purpose of this variable is so that
-    // we can access the Processing library, along with other global methods and variables of the main
-    // sketch class, from within this class. Every reference to a Processing method/variable, or a public
-    // method/variable of the main sketch, must be prefixed with this object while within this class.
-    private Sketch sketch;
 
     // Creating a private TextInput variable, to create a new TextInput within this screen (for users to
     // enter the location they are searching for. This object will never be directly accessed by other
@@ -23,36 +10,25 @@ public class SearchScreen extends Screen {
     private TextInput searchInput;
 
     // Creating a public constructor for the class so that an instance of it can be declared in the main sketch
-    public SearchScreen(Sketch _sketch) {
+    public SearchScreen() {
 
-        // Passing the instance of the Sketch class, which was passed to constructor of this class, to the
-        // super class (Screen), which will in turn pass it to it's super class (Rectangle). The purpose
-        // of this variable is so that we can access the Processing library, along with other global methods
-        // and variables of the main sketch class, from all other classes.
-        super(_sketch);
-
-        // Initialising this class's local sketch variable, with the instance which was passed to the
-        // constructor of this class. The purpose of this variable is so that we can access the Processing
-        // library, along with other global methods and variables of the main sketch class, from within
-        // this class. Every reference to a Processing method/variable, or a public method/variable of
-        // the main sketch, must be prefixed with this object while within this class.
-        sketch = _sketch;
+        super();
 
         // Initialising the TextInput variable, passing in an x, y, width and height. Also passing in the
         // title of this TextInput as well as the text alignment that will be used to display the text
         // within it.
-        this.searchInput = new TextInput(sketch, sketch.iconCenterX, sketch.iconCenterY * 0.7, sketch.appWidth * 0.8, sketch.appHeight * 0.3, "searchInput", "LEFT-TOP");
+        this.searchInput = new TextInput(iconCenterX, iconCenterY * 0.7, appWidth * 0.8, appHeight * 0.3, "searchInput", "LEFT-TOP");
 
         // Creating the icon/s for this screen, using locally scoped variables, as these icons will be only
         // ever be referred to from the allIcons array. Setting their x, and y, based on percentages of the
-        // width and height (where icon positioning variables are used, these were defined in the main sketch.
+        // width and height (where icon positioning variables are used, these were defined in the main 
         // Not passing in any width or height, so as to allow this icon to be set to the default size in the
         // Icon class of the app. Passing in a name for the icon, followed by a boolean to choose whether this
         // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
         // screen or function they will later link to.
-        Icon homeIcon = new Icon(sketch, sketch.iconRightX, sketch.iconTopY, sketch.loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
-        Icon cancelIcon = new Icon(sketch, sketch.appWidth * 0.3, sketch.iconCenterY * 1.1, sketch.appWidth * 0.4, sketch.appHeight * 0.08, "Cancel", true, "Middle", "HomeScreen");
-        Icon searchIcon = new Icon(sketch, sketch.appWidth * 0.7, sketch.iconCenterY * 1.1, sketch.appWidth * 0.4, sketch.appHeight * 0.08, "Search", true, "Middle", "_searchForLocation");
+        Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
+        Icon cancelIcon = new Icon(appWidth * 0.3, iconCenterY * 1.1, appWidth * 0.4, appHeight * 0.08, "Cancel", true, "Middle", "HomeScreen");
+        Icon searchIcon = new Icon(appWidth * 0.7, iconCenterY * 1.1, appWidth * 0.4, appHeight * 0.08, "Search", true, "Middle", "_searchForLocation");
 
         // Creating a temporary allIcons array to store the icon/s we have created above.
         Icon[] allIcons = {homeIcon, searchIcon, cancelIcon};
