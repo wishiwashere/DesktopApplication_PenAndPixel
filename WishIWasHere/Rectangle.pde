@@ -245,7 +245,7 @@ public class Rectangle {
     // where the top left corner of the text box will be positioned, while x2 and y2 will determine where the
     // bottom left corner of the text box will be positioned. Any text added to this text box will be
     // displayed within this text box. Any text which exceeds the bounds of this box will not be displayed.
-    text(trim(displayText), (float)(x1), (float)(y1), (float)(x2), (float)(y2));
+    text(displayText, (float)(x1), (float)(y1), (float)(x2), (float)(y2));
 
     // Restoring the matrix to it's previous state (which was stored when we called the .pushMatrix() method at the start
     // of this function)

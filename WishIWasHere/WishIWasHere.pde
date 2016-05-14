@@ -115,6 +115,8 @@ public Boolean keyboardRequired = false;
 // method so I just decided the pitch value based on what looks good
 private XML[] randomLocations;
 
+private int currentLocationIndex = 0;
+
 // Creating a variable to store the full XML which will be read in from the user_preferences.xml file
 // so that it can later be resaved/reloaded as needed
 private XML userPreferencesXML;
@@ -305,6 +307,9 @@ public PImage currentLocationImage = null;
 
 /*-------------------------------------- Setup() ---------------------------------------------*/
 public void setup() {
+
+  // The size of the app must be set to a resolution which the camera is capable of capturing (as the 
+  // camera setup will be based off of this
   size(640, 360);
 
   // Initialising the appWidth and appHeight variable with the width and height of the device's
@@ -488,6 +493,23 @@ public void mousePressed() {
 
 /*-------------------------------------- keyPressed() ----------------------------------------*/
 public void keyPressed() {
+
+  println(keyCode);
+
+  // Allowing the user to take an image by pressing the space bar on the keyboard
+  if (currentScreen.equals("CameraLiveViewScreen")) {
+    if (keyCode == 32) {
+      // SPACEBAR
+      mergeImages();
+    } else if (keyCode == 37) {
+      // LEFT ARROW
+      getSpecificRandomLocation(-1);
+    } else if (keyCode == 39) {
+      // RIGHT ARROW
+      getSpecificRandomLocation(1);
+    }
+  }
+
   if (currentTextInput != null) {
 
     // Getting the current input value of this text input (i.e. so that if a user clicks between different
@@ -1352,6 +1374,30 @@ public void getRandomLocation() {
   loadGoogleImage();
 }
 
+/*-------------------------------------- GetRandomLocation() ---------------------------------*/
+public void getSpecificRandomLocation(int direction) {
+
+  // Determing an index value, based on the amount of locations stored in the randomLocations XML file
+  if (direction == 1) {
+    currentLocationIndex = currentLocationIndex + direction > randomLocations.length - 1 ? 0 : currentLocationIndex + direction;
+    println("Getting next random location");
+  } else if (direction == -1) {
+    currentLocationIndex = currentLocationIndex + direction < 0 ? randomLocations.length - 1: currentLocationIndex + direction;
+    println("Getting previous random location");
+  }
+
+  // Setting the google image location variables, based on the relevant values from the random location
+  // we are accessing, using the random index generated above
+  googleImageLatLng = randomLocations[currentLocationIndex].getString("latLng");
+  googleImageHeading = Float.parseFloat(randomLocations[currentLocationIndex].getString("heading"));
+  googleImagePitch = Float.parseFloat(randomLocations[currentLocationIndex].getString("pitch"));
+  currentLocationName = randomLocations[currentLocationIndex].getString("name");
+
+  // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
+  // properties using the new values assigned above.
+  loadGoogleImage();
+}
+
 /*-------------------------------------- LoadGoogleImage() -----------------------------------*/
 public void loadGoogleImage() {
 
@@ -1461,14 +1507,14 @@ public void loadUserPreferencesXML() {
 
   // Creating a new File object, which contains the path to where the user's preferences will
   // have been stored locally within the app
-  File localUserPreferencesPath = new File("user_preferences.xml");
+  File localUserPreferencesPath = new File(sketchPath("data/user_preferences.xml"));
 
   // Checking if this path already exists i.e. does the user already have preferences stored within
   // the app, or is this their first time using the app
   if (localUserPreferencesPath.exists()) {
     // Since this path already exists, then loading in the user's previously saved preferences
     // from the app's local files
-    userPreferencesXML = loadXML("user_preferences.xml");
+    userPreferencesXML = loadXML(sketchPath("data/user_preferences.xml"));
   } else {
     // Since the user does not already have preferences stored within the app, loading in the
     // preferences from the default user_preferences.xml file, on our GitHub.io site, so that
@@ -1542,7 +1588,7 @@ public void saveUserPreferencesXML() {
 
   // Saving the current userPreferencesXML variable in the app's local user_preferences.xml file
   // so that the user's settings (and favourite locations) can be persisted between app sessions
-  saveXML(userPreferencesXML, "user_preferences.xml");
+  saveXML(userPreferencesXML, "data/user_preferences.xml");
 
   // Loading the XML data back in, so that the changes that have just been made to the user_preferences.xml
   // file will also be reflected in the relevant variable within the app aswell
