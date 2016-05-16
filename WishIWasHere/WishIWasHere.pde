@@ -485,8 +485,6 @@ public void mousePressed() {
 /*-------------------------------------- keyPressed() ----------------------------------------*/
 public void keyPressed() {
 
-  println(keyCode);
-
   // Allowing the user to take an image by pressing the space bar on the keyboard
   if (currentScreen.equals("CameraLiveViewScreen")) {
     if (keyCode == 32) {
@@ -518,7 +516,7 @@ public void keyPressed() {
         // of currentTextInputValue, that is one shorter than the current currentTextInputValue string
         currentTextInputValue = currentTextInputValue.substring(0, currentTextInputValue.length() - 1);
       }
-    } else {
+    } else if(key != CODED) {
       // This is a character key
       // Checking if the current length of the text in this TextInput exceeds it's maximum character length,
       // i.e. if this is the TextInput for adding a message to a tweet, then the maximum length will be set
@@ -1087,7 +1085,7 @@ public void removeGreenScreen() {
   PImage keyedImage;
 
   try {
-    println("Starting removing Green Screen in " + keyingQuality + " quality at frame " + frameCount);
+    //println("Starting removing Green Screen in " + keyingQuality + " quality at frame " + frameCount);
 
     // Changing the colour mode to HSB, so that I can work with the hue, satruation and
     // brightness of the pixels. Setting the maximum hue to 360, and the maximum saturation
@@ -1221,7 +1219,7 @@ public void removeGreenScreen() {
     }
 
 
-    println("Finished removing Green Screen at frame " + frameCount);
+    //println("Finished removing Green Screen at frame " + frameCount);
   } 
   catch (OutOfMemoryError e) {
 
@@ -1364,34 +1362,40 @@ public void searchForLocation() {
   googleImageLatLng = "0,0";
   googleImagePitch = 0;
 
-  // Using the Google Maps Geocoding API to query the address the user has specified, and return the relevant XML containing
-  // the location data of the place - https://developers.google.com/maps/documentation/geocoding/intro
-  XML locationXML = loadXML("https://maps.googleapis.com/maps/api/geocode/xml?address=" + compiledSearchAddress + "&key=" + googleBrowserApiKey);
+  try {
+    // Using the Google Maps Geocoding API to query the address the user has specified, and return the relevant XML containing
+    // the location data of the place - https://developers.google.com/maps/documentation/geocoding/intro
+    XML locationXML = loadXML("https://maps.googleapis.com/maps/api/geocode/xml?address=" + compiledSearchAddress + "&key=" + googleBrowserApiKey);
 
-  // Checking if a result was found for the location specified by the user
-  if (locationXML.getChild("status").getContent().equals("OK")) {
+    // Checking if a result was found for the location specified by the user
+    if (locationXML.getChild("status").getContent().equals("OK")) {
 
-    // Getting the latitude and longitude data from the search result XML file
-    String latitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lat").getContent();
-    String longitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lng").getContent();
+      // Getting the latitude and longitude data from the search result XML file
+      String latitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lat").getContent();
+      String longitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lng").getContent();
 
-    // Concatenating the latitude and longitude, seperated by a comma, so that they can be stored in the googleImageLatLng,
-    // to later be passed into the Google Street View Image API request
-    googleImageLatLng = latitude + "," + longitude;
+      // Concatenating the latitude and longitude, seperated by a comma, so that they can be stored in the googleImageLatLng,
+      // to later be passed into the Google Street View Image API request
+      googleImageLatLng = latitude + "," + longitude;
 
-    // Getting the name of the current location from the "long_name" element of teh search result XML file
-    currentLocationName = locationXML.getChildren("result")[0].getChildren("address_component")[0].getChild("long_name").getContent();
+      // Getting the name of the current location from the "long_name" element of teh search result XML file
+      currentLocationName = locationXML.getChildren("result")[0].getChildren("address_component")[0].getChild("long_name").getContent();
 
-    println("Latitude, Longitude = " + googleImageLatLng);
+      println("Latitude, Longitude = " + googleImageLatLng);
 
-    // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
-    // properties using the location data from the user's search results, as specified above
-    loadGoogleImage();
+      // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
+      // properties using the location data from the user's search results, as specified above
+      loadGoogleImage();
 
-    // Clearing the input value of the search TextInput on the Search screen, as this is no longer needed
-    currentTextInput.clearInputValue();
-  } else {
+      // Clearing the input value of the search TextInput on the Search screen, as this is no longer needed
+      currentTextInput.clearInputValue();
+    } else {
 
+      // The search was unsuccessful, so sending the user to the SearchUnsuccessfulScreen
+      currentScreen = "SearchUnsuccessfulScreen";
+    }
+  } 
+  catch(Exception e) {
     // The search was unsuccessful, so sending the user to the SearchUnsuccessfulScreen
     currentScreen = "SearchUnsuccessfulScreen";
   }

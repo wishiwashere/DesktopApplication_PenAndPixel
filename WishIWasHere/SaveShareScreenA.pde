@@ -39,8 +39,8 @@ public class SaveShareScreenA extends Screen {
     // later link to.
     saveIcon = new Icon(iconCenterX * 0.55, iconCenterY * 1.22, largeIconSize, largeIconSize, loadImage(saveIconImage), "Save", true, "Below", "_toggleSavingOfCurrentImage");
     twitterIcon = new Icon(iconCenterX * 1.45, iconCenterY * 1.22, largeIconSize, largeIconSize, loadImage(twitterIconImage), "Twitter", true, "Below", "_switchSendToTwitter");
-    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Cancel", true, "Middle", "CameraLiveViewScreen");
-    nextIcon = new Icon(appWidth * 0.7, iconBottomY, appWidth * 0.4, appHeight * 0.1, "Next", true, "Middle", "_keepImage");
+    Icon cancelIcon = new Icon(appWidth * 0.3, iconBottomY + 30, appWidth * 0.4, appHeight * 0.1, "Cancel", true, "Middle", "CameraLiveViewScreen");
+    nextIcon = new Icon(appWidth * 0.7, iconBottomY + 30, appWidth * 0.4, appHeight * 0.1, "Next", true, "Middle", "_keepImage");
 
     // Creating a temporary allIcons array to store the icon/s we have created above, so that they can
     // be passed to the super class (Screen) to be stored as this screen's icons.
