@@ -310,8 +310,8 @@ public void setup() {
 
   // The size of the app must be set to a resolution which the camera is capable of capturing (as the 
   // camera setup will be based off of this
-  //fullScreen();
-  size(640, 360);
+  fullScreen();
+  //size(640, 360);
   //size(1280, 720);
   //size(1920, 1080);
 
@@ -1246,8 +1246,8 @@ public void mergeImages() {
     // Adding the overlayImage, which contains our app logo, to the mergedImage. This logo will always appear in the lower
     // right hand corner of the final image, in both portrait and landscape mode, so determining it's x and y positions
     // based on the mergedImage width and height, minus a percentage of the device width, to provide a margin around the
-    // edge of the icon
-    mergedImage.image(overlayImage, mergedImage.width - (appHeight * 0.3), mergedImage.height - (appHeight * 0.2), appHeight * 0.55, appHeight * 0.3);
+    // edge of the ico
+    mergedImage.image(overlayImage, mergedImage.width - (appHeight * 0.15), mergedImage.height - (appHeight * 0.1), appHeight * 0.275, appHeight * 0.15);
     mergedImage.endDraw();
 
     // Setting the compiled image to be equal to the image stored in the PImage graphic created above. This contains
