@@ -131,11 +131,6 @@ public class TextInput extends ClickableElement {
       // mouse was over the TextInput when the click occurred.
       if (this.checkMouseOver()) {
 
-        // Setting the keyboardRequired variable, defined in the main Sketch class, to true, so that the
-        // device's keyboard can be triggered i.e. so that the user can add text to this TextInput using
-        // the default keyboard of their device.
-        keyboardRequired = true;
-
         // Setting the currentTextInput variable in the main which stores TextInput objects, to
         // be equal to this TextInput so that any text which is entered while this input is in focus,
         // will be added to it.

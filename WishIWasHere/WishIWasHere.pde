@@ -90,14 +90,6 @@ private Boolean readingImage = false;
 public TextInput currentTextInput = null;
 public String currentTextInputValue = "";
 
-// Creating a global boolean, to determine if the keyboard is required. This value is set to
-// true within the TextInput class if a text input has been clicked on. While this value is
-// set to true, the draw function will call the KetaiKeyboard .show() method, to trigger the
-// device to display it's keyboard. Each time a mousePressed event occurs, this variable
-// is reset to false, so that if a user clicks anywhere else on the screen, the keyboard
-// will automatically close
-public Boolean keyboardRequired = false;
-
 /*-------------------------------------- XML Data --------------------------------------------*/
 // Creating an array of random locations based on the random location XML file in the
 // assets folder. Storing these in a separate XML file to the user preferences, so that
@@ -488,10 +480,6 @@ public void draw() {
 public void mousePressed() {
   // Setting mouseClicked to true, so that clicks can be dealt with separate to scrolling events
   mouseClicked = true;
-
-  // Resetting keyboardRequired to false, so that the device's keyboard will be hidden (so that
-  // users can click anywhere on the screen to hide the keyboard
-  keyboardRequired = false;
 }
 
 /*-------------------------------------- keyPressed() ----------------------------------------*/
@@ -1088,7 +1076,10 @@ public void sendTweet() {
 
 /*-------------------------------------- RemoveGreenScreen() ---------------------------------*/
 public void removeGreenScreen() {
-  String keyingQuality = "low";
+  // Can change this variable to "high" to apply the full green screen keying
+  // to the image (currently, the standard definition runs much faster and 
+  // gives a cleaner result to the final image)
+  String keyingQuality = "standard";
   int greenPixels = 0;
 
   // Creating a local keyedImage variable, within which the image of the user, minus the green
@@ -1096,7 +1087,7 @@ public void removeGreenScreen() {
   PImage keyedImage;
 
   try {
-    println("Starting removing Green Screen at frame " + frameCount);
+    println("Starting removing Green Screen in " + keyingQuality + " quality at frame " + frameCount);
 
     // Changing the colour mode to HSB, so that I can work with the hue, satruation and
     // brightness of the pixels. Setting the maximum hue to 360, and the maximum saturation
@@ -1137,7 +1128,7 @@ public void removeGreenScreen() {
 
           // If the current pixel is not near the edge of the image, changing the values of the variables
           // for the pixels around it to get their hue values
-          if (i > appWidth + 1 && i < keyedImage.pixels.length - appWidth - 1) {
+          if (i > currentFrame.width + 1 && i < currentFrame.pixels.length - currentFrame.width - 1) {
             pixelHueToLeft = hue(currentFrame.pixels[i - 1]);
             pixelHueToRight = hue(currentFrame.pixels[i + 1]);
             pixelHueAbove = hue(currentFrame.pixels[i - appWidth]);
@@ -1192,7 +1183,7 @@ public void removeGreenScreen() {
             // are low enough that it is unlikely to be a part of the green screen, but may just be an element of the scene
             // that is picking up a glow off the green screen. Lowering the hue and saturation to remove the green tinge
             // from this pixel.
-            keyedImage.pixels[i] = color((int) (pixelHue * 0.6), (int) (pixelSaturation * 0.3), (int) (pixelBrightness));
+            keyedImage.pixels[i] = color(pixelHue * 0.6, pixelSaturation * 0.3, pixelBrightness);
           }
         }
 
