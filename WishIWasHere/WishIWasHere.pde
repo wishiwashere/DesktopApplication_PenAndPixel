@@ -310,7 +310,10 @@ public void setup() {
 
   // The size of the app must be set to a resolution which the camera is capable of capturing (as the 
   // camera setup will be based off of this
+  //fullScreen();
   size(640, 360);
+  //size(1280, 720);
+  //size(1920, 1080);
 
   // Initialising the appWidth and appHeight variable with the width and height of the device's
   // display, so that these values can be reused throughout all classes (i.e. to calculate
