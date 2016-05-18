@@ -1,5 +1,5 @@
 # Wish I Was Here
-## Desktop Application - PenAndPixel 2016
+## Desktop Application - Pen And Pixel 2016
 
 ### Installation Instructions (for MAC)
 - Download [Processing 3.0](https://processing.org/download/)
@@ -14,4 +14,5 @@
 ### Notes
 - Internet is required for this application to run
 - A green background is required, in order to "see" yourself in an environment
+- Images that are "saved" can be found in the "Pictures" folder of the Sketch (which is generated the first time an image is saved)
   
