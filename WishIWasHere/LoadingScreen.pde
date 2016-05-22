@@ -14,7 +14,7 @@ public class LoadingScreen extends Screen {
 
     // Initialising this class's private loadingScreenImage variable by loading the image in from the assets
     // folder, so that it can be displayd when this screen is called.
-    loadingScreenImage = loadImage("loadingScreenImage.jpg");
+    loadingScreenImage = loadImage("loadingScreenImage.png");
   }
 
   // Creating a public showScreen method, which is called by the draw() funciton whenever this
