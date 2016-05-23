@@ -90,6 +90,14 @@ private Boolean readingImage = false;
 public TextInput currentTextInput = null;
 public String currentTextInputValue = "";
 
+// Creating a global boolean, to determine if the keyboard is required. This value is set to
+// true within the TextInput class if a text input has been clicked on. While this value is
+// set to true, the draw function will call the KetaiKeyboard .show() method, to trigger the
+// device to display it's keyboard. Each time a mousePressed event occurs, this variable
+// is reset to false, so that if a user clicks anywhere else on the screen, the keyboard
+// will automatically close
+public Boolean keyboardRequired = false;
+
 /*-------------------------------------- XML Data --------------------------------------------*/
 // Creating an array of random locations based on the random location XML file in the
 // assets folder. Storing these in a separate XML file to the user preferences, so that
@@ -302,8 +310,8 @@ public void setup() {
 
   // The size of the app must be set to a resolution which the camera is capable of capturing (as the 
   // camera setup will be based off of this
-  fullScreen();
-  //size(640, 360);
+  //fullScreen();
+  size(640, 360);
   //size(1280, 720);
   //size(1920, 1080);
 
@@ -480,6 +488,10 @@ public void draw() {
 public void mousePressed() {
   // Setting mouseClicked to true, so that clicks can be dealt with separate to scrolling events
   mouseClicked = true;
+
+  // Resetting keyboardRequired to false, so that the device's keyboard will be hidden (so that
+  // users can click anywhere on the screen to hide the keyboard
+  keyboardRequired = false;
 }
 
 /*-------------------------------------- keyPressed() ----------------------------------------*/
@@ -516,7 +528,7 @@ public void keyPressed() {
         // of currentTextInputValue, that is one shorter than the current currentTextInputValue string
         currentTextInputValue = currentTextInputValue.substring(0, currentTextInputValue.length() - 1);
       }
-    } else if(key != CODED) {
+    } else {
       // This is a character key
       // Checking if the current length of the text in this TextInput exceeds it's maximum character length,
       // i.e. if this is the TextInput for adding a message to a tweet, then the maximum length will be set
@@ -1074,10 +1086,7 @@ public void sendTweet() {
 
 /*-------------------------------------- RemoveGreenScreen() ---------------------------------*/
 public void removeGreenScreen() {
-  // Can change this variable to "high" to apply the full green screen keying
-  // to the image (currently, the standard definition runs much faster and 
-  // gives a cleaner result to the final image)
-  String keyingQuality = "standard";
+  String keyingQuality = "low";
   int greenPixels = 0;
 
   // Creating a local keyedImage variable, within which the image of the user, minus the green
@@ -1085,7 +1094,7 @@ public void removeGreenScreen() {
   PImage keyedImage;
 
   try {
-    //println("Starting removing Green Screen in " + keyingQuality + " quality at frame " + frameCount);
+    //println("Starting removing Green Screen at frame " + frameCount);
 
     // Changing the colour mode to HSB, so that I can work with the hue, satruation and
     // brightness of the pixels. Setting the maximum hue to 360, and the maximum saturation
@@ -1126,7 +1135,7 @@ public void removeGreenScreen() {
 
           // If the current pixel is not near the edge of the image, changing the values of the variables
           // for the pixels around it to get their hue values
-          if (i > currentFrame.width + 1 && i < currentFrame.pixels.length - currentFrame.width - 1) {
+          if (i > appWidth + 1 && i < keyedImage.pixels.length - appWidth - 1) {
             pixelHueToLeft = hue(currentFrame.pixels[i - 1]);
             pixelHueToRight = hue(currentFrame.pixels[i + 1]);
             pixelHueAbove = hue(currentFrame.pixels[i - appWidth]);
@@ -1181,7 +1190,7 @@ public void removeGreenScreen() {
             // are low enough that it is unlikely to be a part of the green screen, but may just be an element of the scene
             // that is picking up a glow off the green screen. Lowering the hue and saturation to remove the green tinge
             // from this pixel.
-            keyedImage.pixels[i] = color(pixelHue * 0.6, pixelSaturation * 0.3, pixelBrightness);
+            keyedImage.pixels[i] = color((int) (pixelHue * 0.6), (int) (pixelSaturation * 0.3), (int) (pixelBrightness));
           }
         }
 
@@ -1362,40 +1371,34 @@ public void searchForLocation() {
   googleImageLatLng = "0,0";
   googleImagePitch = 0;
 
-  try {
-    // Using the Google Maps Geocoding API to query the address the user has specified, and return the relevant XML containing
-    // the location data of the place - https://developers.google.com/maps/documentation/geocoding/intro
-    XML locationXML = loadXML("https://maps.googleapis.com/maps/api/geocode/xml?address=" + compiledSearchAddress + "&key=" + googleBrowserApiKey);
+  // Using the Google Maps Geocoding API to query the address the user has specified, and return the relevant XML containing
+  // the location data of the place - https://developers.google.com/maps/documentation/geocoding/intro
+  XML locationXML = loadXML("https://maps.googleapis.com/maps/api/geocode/xml?address=" + compiledSearchAddress + "&key=" + googleBrowserApiKey);
 
-    // Checking if a result was found for the location specified by the user
-    if (locationXML.getChild("status").getContent().equals("OK")) {
+  // Checking if a result was found for the location specified by the user
+  if (locationXML.getChild("status").getContent().equals("OK")) {
 
-      // Getting the latitude and longitude data from the search result XML file
-      String latitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lat").getContent();
-      String longitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lng").getContent();
+    // Getting the latitude and longitude data from the search result XML file
+    String latitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lat").getContent();
+    String longitude = locationXML.getChildren("result")[0].getChild("geometry").getChild("location").getChild("lng").getContent();
 
-      // Concatenating the latitude and longitude, seperated by a comma, so that they can be stored in the googleImageLatLng,
-      // to later be passed into the Google Street View Image API request
-      googleImageLatLng = latitude + "," + longitude;
+    // Concatenating the latitude and longitude, seperated by a comma, so that they can be stored in the googleImageLatLng,
+    // to later be passed into the Google Street View Image API request
+    googleImageLatLng = latitude + "," + longitude;
 
-      // Getting the name of the current location from the "long_name" element of teh search result XML file
-      currentLocationName = locationXML.getChildren("result")[0].getChildren("address_component")[0].getChild("long_name").getContent();
+    // Getting the name of the current location from the "long_name" element of teh search result XML file
+    currentLocationName = locationXML.getChildren("result")[0].getChildren("address_component")[0].getChild("long_name").getContent();
 
-      println("Latitude, Longitude = " + googleImageLatLng);
+    println("Latitude, Longitude = " + googleImageLatLng);
 
-      // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
-      // properties using the location data from the user's search results, as specified above
-      loadGoogleImage();
+    // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
+    // properties using the location data from the user's search results, as specified above
+    loadGoogleImage();
 
-      // Clearing the input value of the search TextInput on the Search screen, as this is no longer needed
-      currentTextInput.clearInputValue();
-    } else {
+    // Clearing the input value of the search TextInput on the Search screen, as this is no longer needed
+    currentTextInput.clearInputValue();
+  } else {
 
-      // The search was unsuccessful, so sending the user to the SearchUnsuccessfulScreen
-      currentScreen = "SearchUnsuccessfulScreen";
-    }
-  } 
-  catch(Exception e) {
     // The search was unsuccessful, so sending the user to the SearchUnsuccessfulScreen
     currentScreen = "SearchUnsuccessfulScreen";
   }
@@ -1403,6 +1406,11 @@ public void searchForLocation() {
 
 /*-------------------------------------- GetRandomLocation() ---------------------------------*/
 public void getRandomLocation() {
+
+  // Reloading randomLocations XML from GitHub, so that if we add any new locations during the event,
+  // they will be automatically added to the app
+  randomLocations = loadXML("https://wishiwashere.github.io/random_locations.xml").getChildren("location");
+  println("Random locations reloaded");
 
   // Setting the currentScreen to be equal to the SearchingScreen, so that this will be displayed while a
   // random location is found, and a request is made to the loadGoogleImage() method, to request a new Google
@@ -1433,13 +1441,20 @@ public void getRandomLocation() {
 /*-------------------------------------- GetRandomLocation() ---------------------------------*/
 public void getSpecificRandomLocation(int direction) {
 
+  // Reloading randomLocations XML from GitHub, so that if we add any new locations during the event,
+  // they will be automatically added to the app
+  randomLocations = loadXML("https://wishiwashere.github.io/random_locations.xml").getChildren("location");
+  println("Random locations reloaded");
+  
+  String printMessage = "";
+
   // Determing an index value, based on the amount of locations stored in the randomLocations XML file
   if (direction == 1) {
     currentLocationIndex = currentLocationIndex + direction > randomLocations.length - 1 ? 0 : currentLocationIndex + direction;
-    println("Getting next random location");
+    printMessage = "Getting next random location";
   } else if (direction == -1) {
     currentLocationIndex = currentLocationIndex + direction < 0 ? randomLocations.length - 1: currentLocationIndex + direction;
-    println("Getting previous random location");
+    printMessage = "Getting previous random location";
   }
 
   // Setting the google image location variables, based on the relevant values from the random location
@@ -1449,6 +1464,8 @@ public void getSpecificRandomLocation(int direction) {
   googleImagePitch = Float.parseFloat(randomLocations[currentLocationIndex].getString("pitch"));
   currentLocationName = randomLocations[currentLocationIndex].getString("name");
 
+  println(printMessage + " - " + currentLocationName);
+  
   // Calling the loadGoogleImage() method, to load in the random location's image, with the relevant
   // properties using the new values assigned above.
   loadGoogleImage();
