@@ -18,7 +18,7 @@ import java.util.ArrayList;
 // then be tested against each of the potential screen names (in the this class's
 // switchScreens() function) to decide which class should have the showScreen() method
 // called on it i.e. (which screen should be displayed).
-public String currentScreen = "LoadingScreen";
+public String currentScreen = "SearchUnsuccessfulScreen";
 
 // Creating a string to store the name of the screen to which an icon should return the
 // user to i.e. if the user has arrived at screen B from screen A, then clicking

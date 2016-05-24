@@ -23,8 +23,8 @@ public class SearchUnsuccessfulScreen extends Screen {
     // name should be displayed on the icon or not. Finally, passing in a linkTo value of the name of the
     // screen or function they will later link to.
     Icon homeIcon = new Icon(iconRightX, iconTopY, loadImage("homeIconImage.png"), "Home", false, "HomeScreen");
-    Icon searchTravelIcon = new Icon(appWidth * 0.3, largeIconBottomY, largeIconSize, largeIconSize, loadImage("searchPageIconImage.png"), "Search Again", true, "Below", "SearchScreen");
-    Icon randomTravelIcon = new Icon(appWidth * 0.7, largeIconBottomY, largeIconSize, largeIconSize, loadImage("randomPageIconImage.png"), "Random", true, "Below", "_getRandomLocation");
+    Icon searchTravelIcon = new Icon(appWidth * 0.3, iconCenterY * 1.5, largeIconSize, largeIconSize, loadImage("searchPageIconImage.png"), "Search Again", true, "Below", "SearchScreen");
+    Icon randomTravelIcon = new Icon(appWidth * 0.7, iconCenterY * 1.5, largeIconSize, largeIconSize, loadImage("randomPageIconImage.png"), "Random", true, "Below", "_getRandomLocation");
 
     // Creating a temporary allIcons array to store the icon/s we have created above.
     Icon[] allIcons = {homeIcon, searchTravelIcon, randomTravelIcon};
@@ -50,13 +50,11 @@ public class SearchUnsuccessfulScreen extends Screen {
     // to the size of the device it is being displayed on. Using the iconCenterX variable, as defined
     // in the main Sketch class
     this.addText("We're sorry :(", iconCenterX, appHeight * 0.1);
-    this.addText("We could not", iconCenterX, appHeight * 0.18);
-    this.addText("find what you", iconCenterX, appHeight * 0.26);
-    this.addText("were looking for...", iconCenterX, appHeight * 0.34);
+    this.addText("We could not find what you were looking for...", iconCenterX, appHeight * 0.18);
 
     // Adding this screen's private searchUnsuccessfulScreenImage, using the addImage() method, as inherited from the
     // Rectangle class, so it will appear as part of this screen. Calculating the x, y, width and height
     // based on the current width and height of the device this app is running on.
-    this.addImage(this.searchUnsuccessfulScreenImage, iconCenterX, appHeight * 0.55, appWidth * 0.8, appWidth * 0.4);
+    this.addImage(this.searchUnsuccessfulScreenImage, iconCenterX, appHeight * 0.5, appWidth * 0.6, appWidth * 0.3);
   }
 }
